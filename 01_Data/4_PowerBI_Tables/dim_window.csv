@@ -1,0 +1,9 @@
+window_id,window_label,start_offset,end_offset,window_type,sort_order,definition
+PRE_30,30 days before,-30,-1,pre,1,Change from t(-30) to t(-1) in trading days; t(0)=first trading day on/after anchor date
+PRE_14,14 days before,-14,-1,pre,2,Change from t(-14) to t(-1) in trading days; t(0)=first trading day on/after anchor date
+PRE_7,7 days before,-7,-1,pre,3,Change from t(-7) to t(-1) in trading days; t(0)=first trading day on/after anchor date
+EVENT,Event day,-1,0,event,4,Change from t(-1) to t(+0) in trading days; t(0)=first trading day on/after anchor date
+POST_7,7 days after,-1,7,post,5,Change from t(-1) to t(+7) in trading days; t(0)=first trading day on/after anchor date
+POST_14,14 days after,-1,14,post,6,Change from t(-1) to t(+14) in trading days; t(0)=first trading day on/after anchor date
+POST_30,30 days after,-1,30,post,7,Change from t(-1) to t(+30) in trading days; t(0)=first trading day on/after anchor date
+POST_90,90 days after,-1,90,post,8,Change from t(-1) to t(+90) in trading days; t(0)=first trading day on/after anchor date

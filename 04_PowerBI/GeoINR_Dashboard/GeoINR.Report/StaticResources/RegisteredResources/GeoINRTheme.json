@@ -1,0 +1,22 @@
+{
+  "name": "Geo INR Analytics",
+  "dataColors": ["#1F3A5F", "#D98E04", "#B8860B", "#1A7F7A", "#7A7F87", "#8E5BA8", "#C2552F", "#4F8FC0"],
+  "background": "#FFFFFF",
+  "foreground": "#1B1F24",
+  "tableAccent": "#1F3A5F",
+  "good": "#4F8FC0",
+  "neutral": "#E8EAED",
+  "bad": "#D98E04",
+  "maximum": "#D98E04",
+  "center": "#F4F5F7",
+  "minimum": "#4F8FC0",
+  "textClasses": {
+    "title": { "fontFace": "Segoe UI Semibold", "fontSize": 13, "color": "#1B1F24" },
+    "label": { "fontFace": "Segoe UI", "fontSize": 10, "color": "#3C434C" },
+    "callout": { "fontFace": "Segoe UI Semibold", "fontSize": 24, "color": "#1F3A5F" }
+  },
+  "visualStyles": {
+    "*": { "*": { "border": [{ "show": false }], "background": [{ "show": true, "color": { "solid": { "color": "#FFFFFF" } } }] } },
+    "page": { "*": { "background": [{ "color": { "solid": { "color": "#F4F5F7" } }, "transparency": 0 }] } }
+  }
+}

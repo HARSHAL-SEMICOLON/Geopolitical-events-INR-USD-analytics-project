@@ -1,0 +1,88 @@
+relationship d0798cf8-6d20-5588-a1f8-e737a35b73bc
+	fromColumn: fact_daily_aligned.date_key
+	toColumn: dim_date.date_key
+
+relationship 183195bf-a335-52a1-ab9a-7fddb8f4cf0e
+	fromColumn: fact_daily_aligned.basis
+	toColumn: dim_fx_basis.basis
+
+relationship d0429a9a-0a72-5552-909c-ecb1e28fedcc
+	fromColumn: fact_macro.date_key
+	toColumn: dim_date.date_key
+
+relationship 891f25d7-6320-59f3-80dc-bf1aef7f6356
+	fromColumn: fact_macro.series_id
+	toColumn: dim_series.series_id
+
+relationship 7672d615-11da-5b99-9cd2-856861968fa5
+	fromColumn: dq_fx_crosscheck.date_key
+	toColumn: dim_date.date_key
+
+relationship a4a0c97a-27ce-5cde-9ae0-90c4d6b66c7c
+	fromColumn: dim_event_milestone.event_id
+	toColumn: dim_event.event_id
+
+relationship d5a6c6b5-ebf2-58a5-8438-b0d823252e40
+	fromColumn: fact_event_anchor.event_id
+	toColumn: dim_event.event_id
+
+relationship a5558003-015e-569b-b2ce-2777913c444d
+	fromColumn: fact_event_anchor.basis
+	toColumn: dim_fx_basis.basis
+
+relationship 95974244-5665-5adf-8652-ad9906624103
+	fromColumn: fact_event_window.event_id
+	toColumn: dim_event.event_id
+
+relationship e2d7fb26-c3e2-56d5-8888-2d0fb390da7e
+	fromColumn: fact_event_window.window_id
+	toColumn: dim_window.window_id
+
+relationship 2c73d091-c146-53f5-aa52-8cc2392083f5
+	fromColumn: fact_event_window.series_id
+	toColumn: dim_analysis_series.series_id
+
+relationship d6b48778-d68f-5670-82bb-53d5688bf394
+	fromColumn: fact_event_window.basis
+	toColumn: dim_fx_basis.basis
+
+relationship 14473405-aa66-5fa5-887b-a1c20a0a5d6e
+	fromColumn: fact_event_window_corr.event_id
+	toColumn: dim_event.event_id
+
+relationship 2f8d9d14-94ec-5acc-8c38-49c43ace54be
+	fromColumn: fact_event_window_corr.window_id
+	toColumn: dim_window.window_id
+
+relationship 8dcbe551-6a86-53e9-8651-2ded2fa011df
+	fromColumn: fact_event_window_corr.series_id
+	toColumn: dim_analysis_series.series_id
+
+relationship 007f6131-9539-5121-bade-95a0dcf976a7
+	fromColumn: fact_event_window_corr.basis
+	toColumn: dim_fx_basis.basis
+
+relationship 66695e2b-cb3d-57b1-84f0-b497627663d9
+	fromColumn: fact_event_path.event_id
+	toColumn: dim_event.event_id
+
+relationship 6161b5ba-76e6-5a19-bfa3-eb668b4a98b5
+	fromColumn: fact_event_path.series_id
+	toColumn: dim_analysis_series.series_id
+
+relationship 75be8667-2591-5191-b399-69267a5ace12
+	fromColumn: fact_event_path.basis
+	toColumn: dim_fx_basis.basis
+
+relationship e246260a-6c5c-53ce-ba8c-1695a33090e9
+	fromColumn: fact_event_window_context.event_id
+	toColumn: dim_event.event_id
+
+relationship 975230af-2c8a-5514-bfc7-b7c9fca1d9b2
+	fromColumn: fact_event_window_context.window_id
+	toColumn: dim_window.window_id
+
+relationship c5eb5f20-2ff6-5197-8d37-a73b7513cae7
+	fromColumn: fact_event_window_context.basis
+	toColumn: dim_fx_basis.basis
+

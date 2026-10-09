@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p1_overview_subtitle",
+  "position": {
+    "x": 16,
+    "y": 40,
+    "z": 100,
+    "height": 28,
+    "width": 1010,
+    "tabOrder": 100
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "How the rupee moved 2013-2026 before any event is layered on. Up = rupee weaker. India CPI is on base 2024=100 from Jan-2026.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#3C434C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

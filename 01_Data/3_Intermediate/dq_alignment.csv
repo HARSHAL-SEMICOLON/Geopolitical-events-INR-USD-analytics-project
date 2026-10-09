@@ -1,0 +1,17 @@
+basis,series_id,days,exact,carried,missing,max_staleness,note,pct_exact
+RBI,BRENT,3436,3355,79,2,5,"as-of join, cap 5 calendar days",97.6
+RBI,GOLD_USD,3436,3351,85,0,4,"as-of join, cap 5 calendar days",97.5
+RBI,NIFTY50,3315,3314,1,0,1,"as-of join, cap 5 calendar days",100.0
+RBI,DXY_BROAD,3436,3285,151,0,4,"as-of join, cap 5 calendar days",95.6
+RBI,VIX,3436,3361,75,0,4,"as-of join, cap 5 calendar days",97.8
+RBI,UST10Y,3436,3307,129,0,3,"as-of join, cap 5 calendar days",96.2
+RBI,FFR_UPPER,3436,3436,0,0,0,step series (no staleness cap),100.0
+RBI,IN_REPO,3296,32,3264,0,729,step series (no staleness cap),1.0
+FRED,BRENT,3559,3504,55,0,5,"as-of join, cap 5 calendar days",98.5
+FRED,GOLD_USD,3559,3483,76,0,4,"as-of join, cap 5 calendar days",97.9
+FRED,NIFTY50,3434,3251,183,0,5,"as-of join, cap 5 calendar days",94.7
+FRED,DXY_BROAD,3559,3543,16,0,5,"as-of join, cap 5 calendar days",99.6
+FRED,VIX,3559,3543,16,0,4,"as-of join, cap 5 calendar days",99.6
+FRED,UST10Y,3559,3548,11,0,1,"as-of join, cap 5 calendar days",99.7
+FRED,FFR_UPPER,3559,3559,0,0,0,step series (no staleness cap),100.0
+FRED,IN_REPO,3416,32,3384,0,729,step series (no staleness cap),0.9

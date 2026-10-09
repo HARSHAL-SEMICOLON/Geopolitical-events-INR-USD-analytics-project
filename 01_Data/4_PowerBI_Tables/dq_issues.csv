@@ -1,0 +1,120 @@
+issue_id,stage,series_id,obs_date,rule,detail,severity,action
+1,ingest,USDINR_RBI,,holiday_rows,3 dates listed with '-' (no reference rate),info,treated as non-trading days
+2,ingest,USDINR_RBI,,null_values,3 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+3,ingest,USDINR_RBI_IBTABLE,2025-12-20,weekend_value,value on a Saturday in the interbank table,warning,not used - primary series comes from the Daily Exchange Rate table
+4,ingest,USDINR_RBI_CLOSE,,high_low_convention,'High' < 'Low' on 95% of rows - RBI quotes High/Low in rupee terms,info,columns renamed inr_strongest / inr_weakest in fact_fx
+5,ingest,USDINR_RBI_IBTABLE,,null_values,25 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+6,ingest,USDINR_RBI_CLOSE,,null_values,170 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+7,ingest,USDINR_RBI_OPEN,,null_values,176 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+8,ingest,USDINR_RBI_INRSTRONG,,null_values,169 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+9,ingest,USDINR_RBI_INRWEAK,,null_values,168 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+10,ingest,IN_CPI_MOSPI,,cpi_block,"base 2010=100: 48 All-India rows Jan-2011..Dec-2014, 35 with published YoY",info,
+11,ingest,IN_CPI_MOSPI,,cpi_block,"base 2012=100: 156 All-India rows Jan-2013..Dec-2025, 144 with published YoY",info,
+12,ingest,IN_CPI_MOSPI,,cpi_block,"base 2024=100: 164 All-India rows Jan-2013..Aug-2026, 152 with published YoY",info,
+13,ingest,IN_CPI_MOSPI,,series_break,"CPI base changes 2010->2012 (Jan-2014) and 2012->2024 (Jan-2026); index LEVELS are not comparable across the break, published YoY inflation is used for charts",warning,base year stored per row (fact_macro.series_version)
+14,ingest,IN_RBI_FX_NET,,definition,"net purchase(+)/sale(-) of FX by RBI incl. swap and outright-forward legs, by VALUE date (RBI note)",info,monthly; attributed to event windows by calendar month
+15,ingest,BRENT,,null_values,111 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+16,ingest,DXY_BROAD,,null_values,212 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+17,ingest,UST10Y,,null_values,720 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+18,ingest,VIX,,null_values,302 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+19,ingest,US_CPI,,null_values,1 period rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+20,ingest,IN_FX_RESERVES,,null_values,66 period rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+21,ingest,USDINR_FRED,,null_values,551 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+22,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012013to01012014.csv: 251 rows,info,
+23,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012014to01012015.csv: 245 rows,info,
+24,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012015to01012016.csv: 249 rows,info,
+25,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012016to31122016.csv: 247 rows,info,
+26,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012017to01012018.csv: 249 rows,info,
+27,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012018to01012019.csv: 247 rows,info,
+28,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012019to01012020.csv: 246 rows,info,
+29,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012020to31122020.csv: 252 rows,info,
+30,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012021to01012022.csv: 248 rows,info,
+31,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012022to31122022.csv: 248 rows,info,
+32,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012023to01012024.csv: 247 rows,info,
+33,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012024to31122024.csv: 249 rows,info,
+34,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012025to01012026.csv: 250 rows,info,
+35,ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012026to30092026.csv: 184 rows,info,
+36,ingest,NIFTY50,,boundary_duplicates,8 identical rows repeated across yearly files,info,de-duplicated
+37,ingest,USDINR_RBI,,table_crosscheck,"3472 shared dates: 2815 identical, 628 differ by <= 0.005 (rounding), 29 differ by more",info,Daily Exchange Rate table used as primary
+38,ingest,USDINR_RBI,2013-07-18,table_conflict,Daily Exchange Rate table 60.0510 vs interbank table 59.7100,warning,kept primary value as published; not near any event anchor - review
+39,ingest,USDINR_RBI,2019-10-29,table_conflict,Daily Exchange Rate table 70.7303 vs interbank table 70.9523,warning,kept primary value as published; not near any event anchor - review
+40,ingest,USDINR_RBI,2019-10-30,table_conflict,Daily Exchange Rate table 70.9915 vs interbank table 70.7303,warning,kept primary value as published; not near any event anchor - review
+41,ingest,USDINR_RBI,2019-10-31,table_conflict,Daily Exchange Rate table 70.8095 vs interbank table 70.9915,warning,kept primary value as published; not near any event anchor - review
+42,ingest,USDINR_RBI,2019-11-01,table_conflict,Daily Exchange Rate table 70.8798 vs interbank table 70.8095,warning,kept primary value as published; not near any event anchor - review
+43,ingest,USDINR_RBI_IBTABLE,,carried_forward_copies,"11 dates (mostly 1 April - banks' annual closing) repeat the previous day's value exactly: 2014-03-31, 2015-04-01, 2016-04-01, 2016-07-06, 2018-04-02, 2020-04-01, 2021-04-01, 2022-04-01, 2024-04-01, 2025-04-01, 2026-04-01",info,excluded - not present in the primary table
+44,validate,USDINR_RBI,2013-06-10,large_daily_move,+1.83% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+45,validate,USDINR_RBI,2013-06-11,large_daily_move,+1.98% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+46,validate,USDINR_RBI,2013-06-20,large_daily_move,+1.63% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+47,validate,USDINR_RBI,2013-07-09,large_daily_move,-1.59% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+48,validate,USDINR_RBI,2013-07-31,large_daily_move,+2.15% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+49,validate,USDINR_RBI,2013-08-20,large_daily_move,+2.23% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+50,validate,USDINR_RBI,2013-08-22,large_daily_move,+3.09% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+51,validate,USDINR_RBI,2013-08-27,large_daily_move,+2.23% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+52,validate,USDINR_RBI,2013-08-28,large_daily_move,+4.10% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+53,validate,USDINR_RBI,2013-08-30,large_daily_move,-1.67% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+54,validate,USDINR_RBI,2013-09-03,large_daily_move,+1.56% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+55,validate,USDINR_RBI,2013-09-10,large_daily_move,-2.64% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+56,validate,USDINR_RBI,2013-09-16,large_daily_move,-2.05% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+57,validate,USDINR_RBI,2013-09-19,large_daily_move,-2.21% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+58,validate,USDINR_RBI,2013-09-30,large_daily_move,+1.56% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+59,validate,USDINR_RBI,2013-10-11,large_daily_move,-1.58% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+60,validate,USDINR_RBI,2018-12-19,large_daily_move,-1.52% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+61,validate,USDINR_RBI,2026-04-02,large_daily_move,-1.53% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+62,validate,USDINR_FRED,2013-06-10,large_daily_move,+2.76% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+63,validate,USDINR_FRED,2013-06-26,large_daily_move,+1.74% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+64,validate,USDINR_FRED,2013-07-30,large_daily_move,+2.48% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+65,validate,USDINR_FRED,2013-08-19,large_daily_move,+2.40% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+66,validate,USDINR_FRED,2013-08-23,large_daily_move,-2.06% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+67,validate,USDINR_FRED,2013-08-26,large_daily_move,+1.65% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+68,validate,USDINR_FRED,2013-08-27,large_daily_move,+3.08% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+69,validate,USDINR_FRED,2013-08-28,large_daily_move,+3.86% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+70,validate,USDINR_FRED,2013-08-29,large_daily_move,-3.27% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+71,validate,USDINR_FRED,2013-09-03,large_daily_move,+3.04% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+72,validate,USDINR_FRED,2013-09-05,large_daily_move,-1.60% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+73,validate,USDINR_FRED,2013-09-10,large_daily_move,-2.16% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+74,validate,USDINR_FRED,2013-09-19,large_daily_move,-2.54% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+75,validate,USDINR_FRED,2013-11-12,large_daily_move,+2.00% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+76,validate,USDINR_FRED,2014-08-29,large_daily_move,+1.65% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+77,validate,USDINR_FRED,2018-08-13,large_daily_move,+1.66% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+78,validate,USDINR_FRED,2018-12-10,large_daily_move,+2.24% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+79,validate,USDINR_FRED,2019-08-05,large_daily_move,+1.65% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+80,validate,USDINR_FRED,2020-03-26,large_daily_move,-1.93% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+81,validate,USDINR_FRED,2021-02-26,large_daily_move,+1.62% day-on-day (threshold 1.5%),info,"kept - verified as market move, not a data error (review list)"
+82,validate,BRENT,2016-01-22,large_daily_move,+10.40% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+83,validate,BRENT,2016-02-12,large_daily_move,+10.34% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+84,validate,BRENT,2019-09-16,large_daily_move,+11.71% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+85,validate,BRENT,2020-03-06,large_daily_move,-11.09% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+86,validate,BRENT,2020-03-09,large_daily_move,-22.52% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+87,validate,BRENT,2020-03-16,large_daily_move,-13.24% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+88,validate,BRENT,2020-03-18,large_daily_move,-18.52% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+89,validate,BRENT,2020-03-30,large_daily_move,-14.29% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+90,validate,BRENT,2020-03-31,large_daily_move,-22.62% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+91,validate,BRENT,2020-04-02,large_daily_move,+35.20% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+92,validate,BRENT,2020-04-03,large_daily_move,+20.21% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+93,validate,BRENT,2020-04-08,large_daily_move,+14.12% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+94,validate,BRENT,2020-04-09,large_daily_move,-19.79% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+95,validate,BRENT,2020-04-20,large_daily_move,-12.10% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+96,validate,BRENT,2020-04-21,large_daily_move,-47.47% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+97,validate,BRENT,2020-04-22,large_daily_move,+50.99% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+98,validate,BRENT,2020-04-29,large_daily_move,+14.49% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+99,validate,BRENT,2020-05-04,large_daily_move,+10.33% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+100,validate,BRENT,2020-05-05,large_daily_move,+24.80% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+101,validate,BRENT,2021-11-26,large_daily_move,-11.80% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+102,validate,BRENT,2022-03-09,large_daily_move,-12.46% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+103,validate,BRENT,2026-03-12,large_daily_move,+12.53% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+104,validate,BRENT,2026-03-23,large_daily_move,-12.35% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+105,validate,BRENT,2026-04-08,large_daily_move,-11.65% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+106,validate,BRENT,2026-04-17,large_daily_move,-15.43% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+107,validate,BRENT,2026-07-23,large_daily_move,+11.90% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+108,validate,BRENT,2026-09-10,large_daily_move,+10.47% day-on-day (threshold 10%),info,"kept - verified as market move, not a data error (review list)"
+109,validate,GOLD_USD,2013-04-15,large_daily_move,-8.53% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+110,validate,GOLD_USD,2020-03-16,large_daily_move,-5.26% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+111,validate,GOLD_USD,2020-03-24,large_daily_move,+7.03% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+112,validate,GOLD_USD,2026-01-30,large_daily_move,-7.97% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+113,validate,GOLD_USD,2026-02-02,large_daily_move,-7.47% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+114,validate,GOLD_USD,2026-02-03,large_daily_move,+5.08% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+115,validate,GOLD_USD,2026-03-19,large_daily_move,-6.03% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+116,validate,GOLD_USD,2026-03-23,large_daily_move,-8.32% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+117,validate,GOLD_USD,2026-09-01,large_daily_move,-5.10% day-on-day (threshold 5%),info,"kept - verified as market move, not a data error (review list)"
+118,validate,USDINR_RBI vs USDINR_FRED,,source_divergence,188 days where |FRED-RBI| > 0.5% (different fixing times: ~13:30 IST vs 12:00 New York),info,"not corrected; RBI stays primary, FRED is a cross-check"
+119,validate,event windows,,stale_window_endpoint,240 event-window rows use a carried-forward value at an endpoint (<= 5 days old),info,flag kept in fact_event_window.start/end_staleness_days

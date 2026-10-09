@@ -1,0 +1,251 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p3_windows_ctx",
+  "position": {
+    "x": 612,
+    "y": 418,
+    "z": 1400,
+    "height": 246,
+    "width": 652,
+    "tabOrder": 1400
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_event"
+                    }
+                  },
+                  "Property": "event_id"
+                }
+              },
+              "queryRef": "dim_event.event_id",
+              "nativeQueryRef": "event_id",
+              "displayName": "ID"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Window Start Date"
+                }
+              },
+              "queryRef": "_Measures.Window Start Date",
+              "nativeQueryRef": "Window Start Date",
+              "displayName": "Start"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Window End Date"
+                }
+              },
+              "queryRef": "_Measures.Window End Date",
+              "nativeQueryRef": "Window End Date",
+              "displayName": "End"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "USDINR Window Change %"
+                }
+              },
+              "queryRef": "_Measures.USDINR Window Change %",
+              "nativeQueryRef": "USDINR Window Change %",
+              "displayName": "USD/INR %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "USDINR Baseline Percentile"
+                }
+              },
+              "queryRef": "_Measures.USDINR Baseline Percentile",
+              "nativeQueryRef": "USDINR Baseline Percentile",
+              "displayName": "Pctile vs 3y"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Policy Changes in Window"
+                }
+              },
+              "queryRef": "_Measures.Policy Changes in Window",
+              "nativeQueryRef": "Policy Changes in Window",
+              "displayName": "Policy changes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "RBI Net FX in Window (USD bn)"
+                }
+              },
+              "queryRef": "_Measures.RBI Net FX in Window (USD bn)",
+              "nativeQueryRef": "RBI Net FX in Window (USD bn)",
+              "displayName": "RBI FX $bn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Overlapping Events"
+                }
+              },
+              "queryRef": "_Measures.Overlapping Events",
+              "nativeQueryRef": "Overlapping Events",
+              "displayName": "Overlaps"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_event"
+                  }
+                },
+                "Property": "event_id"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'What else was happening in the selected window'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

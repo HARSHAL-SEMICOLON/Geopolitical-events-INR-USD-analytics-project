@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p4_oil_subtitle",
+  "position": {
+    "x": 16,
+    "y": 40,
+    "z": 100,
+    "height": 28,
+    "width": 1010,
+    "tabOrder": 100
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "India imports most of its crude - a plausible channel, but oil also reacts to the same events and to unrelated supply news.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#3C434C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

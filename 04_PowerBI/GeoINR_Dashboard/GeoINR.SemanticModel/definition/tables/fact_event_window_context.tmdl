@@ -1,0 +1,103 @@
+table fact_event_window_context
+	lineageTag: 33d1365e-c7b4-599c-82b8-094d6ac3fbb6
+
+	column basis
+		dataType: string
+		lineageTag: aa965029-4da3-5a03-9cc6-0ea4b423c6aa
+		summarizeBy: none
+		sourceColumn: basis
+
+	column event_id
+		dataType: string
+		lineageTag: 005e63df-b31e-5dc8-9a97-9c33f9064f32
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column window_id
+		dataType: string
+		lineageTag: 26385b49-e87c-51cb-846d-6b20871c1888
+		summarizeBy: none
+		sourceColumn: window_id
+
+	column start_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 92e37b15-440c-50f0-a839-cc3c4bf604c6
+		summarizeBy: none
+		sourceColumn: start_date
+
+	column end_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f581b264-c7cb-59a2-8d3b-00e8ad6de746
+		summarizeBy: none
+		sourceColumn: end_date
+
+	column status
+		dataType: string
+		lineageTag: 01fb89e8-fdd9-586f-953a-65edca28581e
+		summarizeBy: none
+		sourceColumn: status
+
+	column trading_days
+		dataType: int64
+		formatString: 0
+		lineageTag: ef471d11-707a-5fd3-aaa3-5cb1d0752f76
+		summarizeBy: none
+		sourceColumn: trading_days
+
+	column overlapping_events
+		dataType: string
+		lineageTag: c05c9166-516d-5619-8730-68e34ae7ebad
+		summarizeBy: none
+		sourceColumn: overlapping_events
+
+	column rbi_repo_changes
+		dataType: string
+		lineageTag: 67ddfde5-506d-5b43-8235-f0eeaa11e4ef
+		summarizeBy: none
+		sourceColumn: rbi_repo_changes
+
+	column fomc_target_changes
+		dataType: string
+		lineageTag: 30f6609c-c2d7-5682-af94-84dbf72bb699
+		summarizeBy: none
+		sourceColumn: fomc_target_changes
+
+	column rbi_net_fx_usd_mn
+		dataType: double
+		lineageTag: 2f699c4f-9cfc-59ae-927f-4297f2ae1c28
+		summarizeBy: none
+		sourceColumn: rbi_net_fx_usd_mn
+
+	column rbi_fx_months
+		dataType: string
+		lineageTag: 95e93aad-6691-5a73-a0e5-ddc34ffc4f93
+		summarizeBy: none
+		sourceColumn: rbi_fx_months
+
+	column n_overlapping
+		dataType: int64
+		formatString: 0
+		lineageTag: a7379468-ec6b-5842-abd8-ec34ac62daa9
+		summarizeBy: none
+		sourceColumn: n_overlapping
+
+	column has_policy_change
+		dataType: int64
+		formatString: 0
+		lineageTag: 03f4d3a5-6877-5cb4-86c4-9ef600f0fefc
+		summarizeBy: none
+		sourceColumn: has_policy_change
+
+	partition fact_event_window_context = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_event_window_context.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"event_id", type text}, {"window_id", type text}, {"start_date", type date}, {"end_date", type date}, {"status", type text}, {"trading_days", Int64.Type}, {"overlapping_events", type text}, {"rbi_repo_changes", type text}, {"fomc_target_changes", type text}, {"rbi_net_fx_usd_mn", type number}, {"rbi_fx_months", type text}, {"n_overlapping", Int64.Type}, {"has_policy_change", Int64.Type}}, "en-US")
+				in
+				    Typed
+

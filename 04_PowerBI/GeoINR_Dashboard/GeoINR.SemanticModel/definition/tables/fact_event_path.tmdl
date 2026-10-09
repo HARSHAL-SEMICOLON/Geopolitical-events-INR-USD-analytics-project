@@ -1,0 +1,52 @@
+table fact_event_path
+	lineageTag: a75ccd32-a565-55c8-a8f2-98b6ee8a2d74
+
+	column basis
+		dataType: string
+		lineageTag: 646fdee1-ba84-5f1c-965c-23bb92ad997a
+		summarizeBy: none
+		sourceColumn: basis
+
+	column event_id
+		dataType: string
+		lineageTag: eae63651-a142-5065-ada6-ca8fd08804f4
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column rel_day
+		dataType: int64
+		formatString: 0
+		lineageTag: 884cb1f2-e06b-5485-91f4-4589cc319a92
+		summarizeBy: none
+		sourceColumn: rel_day
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 500b0ac9-9e6f-59e6-82e8-e4def6b71698
+		summarizeBy: none
+		sourceColumn: date
+
+	column series_id
+		dataType: string
+		lineageTag: 1240b534-b6b8-5509-a5a9-461210433f85
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column indexed_value
+		dataType: double
+		lineageTag: 6eeb31db-6585-5add-89f6-7813154d8c0f
+		summarizeBy: none
+		sourceColumn: indexed_value
+
+	partition fact_event_path = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_event_path.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"event_id", type text}, {"rel_day", Int64.Type}, {"date", type date}, {"series_id", type text}, {"indexed_value", type number}}, "en-US")
+				in
+				    Typed
+

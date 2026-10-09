@@ -1,0 +1,10 @@
+series_id,display_name,unit,change_unit,sort_order,source_series_rbi_basis,source_series_fred_basis,interpretation_of_positive
+USDINR,USD/INR,INR per USD,%,1,USDINR_RBI,USDINR_FRED,USD buys more rupees = INR weakened
+BRENT,Brent crude,USD/bbl,%,2,BRENT,BRENT,Oil more expensive
+GOLD_USD,Gold (LBMA AM),USD/oz,%,3,GOLD_USD,GOLD_USD,Gold more expensive
+NIFTY50,NIFTY 50,Index,%,4,NIFTY50,NIFTY50,Indian equities up
+DXY_BROAD,Broad US dollar index,Index,%,5,DXY_BROAD,DXY_BROAD,USD stronger vs 26 currencies
+VIX,VIX,Index,%,6,VIX,VIX,Higher US equity implied volatility (risk-off)
+UST10Y,US 10Y yield,%,pp,7,UST10Y,UST10Y,Higher US long rates
+FFR_UPPER,Fed funds target (upper),%,pp,8,FFR_UPPER,FFR_UPPER,Fed tightened
+IN_REPO,RBI repo rate,%,pp,9,IN_REPO,IN_REPO,RBI tightened

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p6_vol_corr_hint",
+  "position": {
+    "x": 290,
+    "y": 90,
+    "z": 600,
+    "height": 40,
+    "width": 960,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Top row: full history. Bottom row: the 13 events in the selected window. Correlations between -0.36 and +0.36 are within noise for a 30-day window.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#5B6470"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

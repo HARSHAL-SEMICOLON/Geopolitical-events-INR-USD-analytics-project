@@ -1,0 +1,122 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p7_dq_al",
+  "position": {
+    "x": 644,
+    "y": 176,
+    "z": 1100,
+    "height": 238,
+    "width": 620,
+    "tabOrder": 1100
+  },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_alignment"
+                    }
+                  },
+                  "Property": "series_id"
+                }
+              },
+              "queryRef": "dq_alignment.series_id",
+              "nativeQueryRef": "series_id",
+              "displayName": "Series"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Pct Days Exact Match"
+                }
+              },
+              "queryRef": "_Measures.Pct Days Exact Match",
+              "nativeQueryRef": "Pct Days Exact Match",
+              "displayName": "Same-day value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Pct Days Carried Forward"
+                }
+              },
+              "queryRef": "_Measures.Pct Days Carried Forward",
+              "nativeQueryRef": "Pct Days Carried Forward",
+              "displayName": "Carried forward (<= 5 days)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Pct Days Missing"
+                }
+              },
+              "queryRef": "_Measures.Pct Days Missing",
+              "nativeQueryRef": "Pct Days Missing",
+              "displayName": "Missing"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'How each series lines up with the Indian FX calendar'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,92 @@
+table dim_series
+	lineageTag: 7841efee-2c2b-5b4e-8d92-246a9734c94a
+
+	column series_id
+		dataType: string
+		lineageTag: 076b6ae7-fbaf-56e9-bc70-b2693b1064bf
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column series_name
+		dataType: string
+		lineageTag: e0c22969-6a1b-5d5f-acdd-0bc56b382c4f
+		summarizeBy: none
+		sourceColumn: series_name
+
+	column fact_table
+		dataType: string
+		lineageTag: 0ce1be90-908e-5ae0-84eb-eb7bb0013598
+		summarizeBy: none
+		sourceColumn: fact_table
+
+	column category
+		dataType: string
+		lineageTag: 1dfb187f-2ca9-5d9c-b22a-1e1904ee95fc
+		summarizeBy: none
+		sourceColumn: category
+
+	column unit
+		dataType: string
+		lineageTag: 3f7a02aa-6f82-5cbc-b900-33be7e25910e
+		summarizeBy: none
+		sourceColumn: unit
+
+	column frequency
+		dataType: string
+		lineageTag: 91307366-39b2-5e3c-87b3-8d0b78b5703d
+		summarizeBy: none
+		sourceColumn: frequency
+
+	column source_org
+		dataType: string
+		lineageTag: 510e13a1-5c70-5171-abfb-af1a08b9e02e
+		summarizeBy: none
+		sourceColumn: source_org
+
+	column source_dataset
+		dataType: string
+		lineageTag: 5fae88c8-4787-5a7f-8fcc-1ca6bff4ed5a
+		summarizeBy: none
+		sourceColumn: source_dataset
+
+	column source_code
+		dataType: string
+		lineageTag: 89907294-766a-5b66-bea0-7e509f655ceb
+		summarizeBy: none
+		sourceColumn: source_code
+
+	column source_url
+		dataType: string
+		lineageTag: 15d10b7c-abeb-590b-883b-a3eeec4fae85
+		summarizeBy: none
+		sourceColumn: source_url
+
+	column native_timestamp
+		dataType: string
+		lineageTag: b15cf96f-fd28-5b4c-a70d-2b52503201a3
+		summarizeBy: none
+		sourceColumn: native_timestamp
+
+	column role_in_analysis
+		dataType: string
+		lineageTag: 07cb9b6d-38c8-5ed1-be97-e7eb95481327
+		summarizeBy: none
+		sourceColumn: role_in_analysis
+
+	column notes
+		dataType: string
+		lineageTag: 8819aa81-f64b-59f9-b7bc-c0ba8543d2ab
+		summarizeBy: none
+		sourceColumn: notes
+
+	partition dim_series = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_series.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"series_id", type text}, {"series_name", type text}, {"fact_table", type text}, {"category", type text}, {"unit", type text}, {"frequency", type text}, {"source_org", type text}, {"source_dataset", type text}, {"source_code", type text}, {"source_url", type text}, {"native_timestamp", type text}, {"role_in_analysis", type text}, {"notes", type text}}, "en-US")
+				in
+				    Typed
+

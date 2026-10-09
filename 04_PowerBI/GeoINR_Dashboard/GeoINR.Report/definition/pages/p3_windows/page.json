@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "p3_windows",
+  "displayName": "3 Event Window Analysis",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "p3_windows_window",
+      "target": "p3_windows_matrix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "p3_windows_window",
+      "target": "p3_windows_path",
+      "type": "NoFilter"
+    }
+  ]
+}

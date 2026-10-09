@@ -1,0 +1,214 @@
+table fact_daily_aligned
+	lineageTag: ad3eadc4-f68b-5140-8853-16e3d2f4e1e0
+
+	column basis
+		dataType: string
+		lineageTag: 84fe2085-d7bc-53fd-9c7a-dc7ba6e15a21
+		summarizeBy: none
+		sourceColumn: basis
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f22e2c8-2ae9-5cc7-890c-d1fcfcbd36ee
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column trading_day_seq
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b3b9f97-726f-591d-8930-444946393f16
+		summarizeBy: none
+		sourceColumn: trading_day_seq
+
+	column usdinr
+		dataType: double
+		lineageTag: 0f9117b2-aa8f-5d02-b197-76afcc7646ae
+		summarizeBy: none
+		sourceColumn: usdinr
+
+	column usdinr_pct
+		dataType: double
+		lineageTag: 8bdb68cc-09c8-5b61-861f-e3d72b40868d
+		summarizeBy: none
+		sourceColumn: usdinr_pct
+
+	column inr_pct
+		dataType: double
+		lineageTag: 2c533936-8d3f-58f7-b883-9a6fe68f7fa1
+		summarizeBy: none
+		sourceColumn: inr_pct
+
+	column usdinr_logret
+		dataType: double
+		lineageTag: d5f13eed-11aa-55b9-9d0a-9d58cd28db13
+		summarizeBy: none
+		sourceColumn: usdinr_logret
+
+	column brent
+		dataType: double
+		lineageTag: 7fe9a25f-da6c-5b47-87f1-6d4339862b1c
+		summarizeBy: none
+		sourceColumn: brent
+
+	column gold_usd
+		dataType: double
+		lineageTag: a1e87be4-bf84-5a5c-a6fb-6f69a451d033
+		summarizeBy: none
+		sourceColumn: gold_usd
+
+	column nifty50
+		dataType: double
+		lineageTag: 6b59a6c0-57d9-5af1-a737-42ede8fa9266
+		summarizeBy: none
+		sourceColumn: nifty50
+
+	column dxy_broad
+		dataType: double
+		lineageTag: 2ea0b111-653c-5f3a-879c-46bda0cb4311
+		summarizeBy: none
+		sourceColumn: dxy_broad
+
+	column vix
+		dataType: double
+		lineageTag: 1bd8c713-f314-512c-82d2-28197830ae46
+		summarizeBy: none
+		sourceColumn: vix
+
+	column ust10y
+		dataType: double
+		lineageTag: c9ec83c8-c0a9-5561-bd69-21622d99e88c
+		summarizeBy: none
+		sourceColumn: ust10y
+
+	column ffr_upper
+		dataType: double
+		lineageTag: c9381e53-8d3a-5409-bd99-73f74cc2463d
+		summarizeBy: none
+		sourceColumn: ffr_upper
+
+	column in_repo
+		dataType: double
+		lineageTag: 4de7a0fb-96f7-5078-9ea1-aac4fdedd8cf
+		summarizeBy: none
+		sourceColumn: in_repo
+
+	column rate_diff_in_us
+		dataType: double
+		lineageTag: 1794055e-80eb-5071-869b-84779ec5dcba
+		summarizeBy: none
+		sourceColumn: rate_diff_in_us
+
+	column brent_logret
+		dataType: double
+		lineageTag: 051e9f74-279f-5283-98c7-fb4792ef7ffe
+		summarizeBy: none
+		sourceColumn: brent_logret
+
+	column gold_logret
+		dataType: double
+		lineageTag: dbdb272d-cc73-577b-ab2d-ab4d2bc8ec67
+		summarizeBy: none
+		sourceColumn: gold_logret
+
+	column nifty_logret
+		dataType: double
+		lineageTag: 7fbb53bc-863c-5d5d-968b-373af65e4038
+		summarizeBy: none
+		sourceColumn: nifty_logret
+
+	column dxy_logret
+		dataType: double
+		lineageTag: b196bda2-b7ef-5439-a65a-e647a21da2e3
+		summarizeBy: none
+		sourceColumn: dxy_logret
+
+	column vix_logret
+		dataType: double
+		lineageTag: 416d2bed-617a-5aac-85d3-7b145f8e760e
+		summarizeBy: none
+		sourceColumn: vix_logret
+
+	column ust10y_change_pp
+		dataType: double
+		lineageTag: d18a764c-af6c-5bcf-9fc6-6e54da2e32e7
+		summarizeBy: none
+		sourceColumn: ust10y_change_pp
+
+	column usdinr_vol20
+		dataType: double
+		lineageTag: 732c8a04-d735-53db-85e1-5ce9bc6160de
+		summarizeBy: none
+		sourceColumn: usdinr_vol20
+
+	column brent_vol20
+		dataType: double
+		lineageTag: b461647f-e686-5af3-9e88-aa0e11d13ab6
+		summarizeBy: none
+		sourceColumn: brent_vol20
+
+	column gold_vol20
+		dataType: double
+		lineageTag: 776645fd-baa0-5dde-9cf5-56185137cb1a
+		summarizeBy: none
+		sourceColumn: gold_vol20
+
+	column nifty_vol20
+		dataType: double
+		lineageTag: e56e1e39-a75d-57cb-90e3-e94eed78f952
+		summarizeBy: none
+		sourceColumn: nifty_vol20
+
+	column dxy_vol20
+		dataType: double
+		lineageTag: 1af23e38-8af3-5e01-99cc-0e0302070137
+		summarizeBy: none
+		sourceColumn: dxy_vol20
+
+	column corr60_brent
+		dataType: double
+		lineageTag: 62a4fd29-0c57-5c72-acaa-0a2d3cb7e747
+		summarizeBy: none
+		sourceColumn: corr60_brent
+
+	column corr60_gold
+		dataType: double
+		lineageTag: 62c01a16-9c1c-53d0-bbd8-621b2ebed2e7
+		summarizeBy: none
+		sourceColumn: corr60_gold
+
+	column corr60_nifty
+		dataType: double
+		lineageTag: f6cd2f52-55bd-53b9-b777-8572d35d2a34
+		summarizeBy: none
+		sourceColumn: corr60_nifty
+
+	column corr60_dxy
+		dataType: double
+		lineageTag: 39412e38-0634-5d48-bfdd-d12680437795
+		summarizeBy: none
+		sourceColumn: corr60_dxy
+
+	column corr60_vix
+		dataType: double
+		lineageTag: c1a1fdbe-393f-52c7-9bed-c8553b0169cb
+		summarizeBy: none
+		sourceColumn: corr60_vix
+
+	column corr60_ust10y
+		dataType: double
+		lineageTag: 211ab67d-dec0-5820-84d9-49f37b029d14
+		summarizeBy: none
+		sourceColumn: corr60_ust10y
+
+	partition fact_daily_aligned = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_daily_aligned.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"date_key", Int64.Type}, {"trading_day_seq", Int64.Type}, {"usdinr", type number}, {"usdinr_pct", type number}, {"inr_pct", type number}, {"usdinr_logret", type number}, {"brent", type number}, {"gold_usd", type number}, {"nifty50", type number}, {"dxy_broad", type number}, {"vix", type number}, {"ust10y", type number}, {"ffr_upper", type number}, {"in_repo", type number}, {"rate_diff_in_us", type number}, {"brent_logret", type number}, {"gold_logret", type number}, {"nifty_logret", type number}, {"dxy_logret", type number}, {"vix_logret", type number}, {"ust10y_change_pp", type number}, {"usdinr_vol20", type number}, {"brent_vol20", type number}, {"gold_vol20", type number}, {"nifty_vol20", type number}, {"dxy_vol20", type number}, {"corr60_brent", type number}, {"corr60_gold", type number}, {"corr60_nifty", type number}, {"corr60_dxy", type number}, {"corr60_vix", type number}, {"corr60_ust10y", type number}}, "en-US")
+				in
+				    Typed
+

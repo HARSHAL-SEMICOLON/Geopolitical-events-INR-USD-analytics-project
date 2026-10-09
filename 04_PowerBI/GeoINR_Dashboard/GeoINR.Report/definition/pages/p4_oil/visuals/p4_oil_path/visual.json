@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p4_oil_path",
+  "position": {
+    "x": 644,
+    "y": 490,
+    "z": 1200,
+    "height": 174,
+    "width": 620,
+    "tabOrder": 1200
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_event_path"
+                    }
+                  },
+                  "Property": "rel_day"
+                }
+              },
+              "queryRef": "fact_event_path.rel_day",
+              "nativeQueryRef": "rel_day",
+              "displayName": "Trading days from t0"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "USDINR Path (t-1 = 100)"
+                }
+              },
+              "queryRef": "_Measures.USDINR Path (t-1 = 100)",
+              "nativeQueryRef": "USDINR Path (t-1 = 100)",
+              "displayName": "USD/INR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Brent Path (t-1 = 100)"
+                }
+              },
+              "queryRef": "_Measures.Brent Path (t-1 = 100)",
+              "nativeQueryRef": "Brent Path (t-1 = 100)",
+              "displayName": "Brent"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Selected event: USD/INR and Brent, t(-1) = 100'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

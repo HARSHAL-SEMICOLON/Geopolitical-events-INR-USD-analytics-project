@@ -1,0 +1,3 @@
+basis,fx_series_id,calendar_definition,is_primary
+RBI,USDINR_RBI,Days with an RBI/FBIL reference rate (Indian FX trading days),1
+FRED,USDINR_FRED,Days with a Fed H.10 USD/INR noon rate (US business days),0

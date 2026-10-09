@@ -1,0 +1,64 @@
+table dq_issues
+	lineageTag: 69d67590-9ff3-5ab8-bb9f-ee61518b9e75
+
+	column issue_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c6a61afc-47ec-543a-afdf-fe5c7783e78b
+		summarizeBy: none
+		sourceColumn: issue_id
+
+	column stage
+		dataType: string
+		lineageTag: a3b1a9df-14bb-56a0-a351-f90a5a28efc7
+		summarizeBy: none
+		sourceColumn: stage
+
+	column series_id
+		dataType: string
+		lineageTag: e87a21d6-cdd1-5bf5-a98d-1804a28ab147
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column obs_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 01e33d4e-45a2-56e4-a97b-a34197665bab
+		summarizeBy: none
+		sourceColumn: obs_date
+
+	column rule
+		dataType: string
+		lineageTag: 33455514-c341-525d-bb5b-c3348a89082c
+		summarizeBy: none
+		sourceColumn: rule
+
+	column detail
+		dataType: string
+		lineageTag: 5a88cd82-a1df-564f-869a-7e8298b7318f
+		summarizeBy: none
+		sourceColumn: detail
+
+	column severity
+		dataType: string
+		lineageTag: 88641141-5c6a-5bf2-ab93-bfb37142dfe1
+		summarizeBy: none
+		sourceColumn: severity
+
+	column action
+		dataType: string
+		lineageTag: a9a9c176-424f-5de9-863c-52830e88c37e
+		summarizeBy: none
+		sourceColumn: action
+
+	partition dq_issues = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dq_issues.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"issue_id", Int64.Type}, {"stage", type text}, {"series_id", type text}, {"obs_date", type date}, {"rule", type text}, {"detail", type text}, {"severity", type text}, {"action", type text}}, "en-US")
+				in
+				    Typed
+

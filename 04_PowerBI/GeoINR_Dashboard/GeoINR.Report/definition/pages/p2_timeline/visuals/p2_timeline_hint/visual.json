@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p2_timeline_hint",
+  "position": {
+    "x": 330,
+    "y": 92,
+    "z": 600,
+    "height": 40,
+    "width": 700,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Tip: click a row in the events table to filter the milestones beside it. Hover a dot on the chart for the event name.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#5B6470"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

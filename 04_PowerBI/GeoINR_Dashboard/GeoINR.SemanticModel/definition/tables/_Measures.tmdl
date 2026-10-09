@@ -1,0 +1,497 @@
+table _Measures
+	lineageTag: 82a5c9e5-2730-582e-a86c-08fc3de6b639
+
+	measure 'USDINR Rate' = AVERAGE ( fact_daily_aligned[usdinr] )
+		formatString: 0.0000
+		displayFolder: 1 Overview
+		lineageTag: e157dbea-cc19-5e73-9426-88846966aaee
+
+	measure 'USDINR Latest' =
+			VAR _last = CALCULATE ( MAX ( fact_daily_aligned[date_key] ), NOT ISBLANK ( fact_daily_aligned[usdinr] ) )
+			RETURN CALCULATE ( [USDINR Rate], fact_daily_aligned[date_key] = _last )
+		formatString: 0.00
+		displayFolder: 1 Overview
+		lineageTag: 1da3dd74-6265-51c2-be83-5754db1dfc4c
+
+	measure 'USDINR First' =
+			VAR _first = CALCULATE ( MIN ( fact_daily_aligned[date_key] ), NOT ISBLANK ( fact_daily_aligned[usdinr] ) )
+			RETURN CALCULATE ( [USDINR Rate], fact_daily_aligned[date_key] = _first )
+		formatString: 0.00
+		displayFolder: 1 Overview
+		lineageTag: 08233c2b-d54d-5d83-b2b0-b1930281728f
+
+	measure 'USDINR % Change (period)' = DIVIDE ( [USDINR Latest], [USDINR First] ) - 1
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: 89c8e9ae-9f37-5437-b8b6-47ed9b39de17
+
+	measure 'INR % Change (period)' = DIVIDE ( [USDINR First], [USDINR Latest] ) - 1
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: a0860296-0719-50c2-bd37-4db941347466
+
+	measure 'USDINR Vol 20d (ann. %)' = AVERAGE ( fact_daily_aligned[usdinr_vol20] ) / 100
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: 2891c2d1-19ae-5726-8ef2-66a98cb85206
+
+	measure 'Repo Rate (latest)' =
+			VAR _last = MAX ( fact_daily_aligned[date_key] )
+			RETURN CALCULATE ( AVERAGE ( fact_daily_aligned[in_repo] ), fact_daily_aligned[date_key] = _last )
+		formatString: 0.00
+		displayFolder: 1 Overview
+		lineageTag: f131a1f6-cd03-5157-9635-679bcf954767
+
+	measure 'Fed Funds Upper (latest)' =
+			VAR _last = MAX ( fact_daily_aligned[date_key] )
+			RETURN CALCULATE ( AVERAGE ( fact_daily_aligned[ffr_upper] ), fact_daily_aligned[date_key] = _last )
+		formatString: 0.00
+		displayFolder: 1 Overview
+		lineageTag: 720f6dd7-f142-587f-a3e8-c2922196ba81
+
+	measure 'Rate Differential IN-US (pp)' = [Repo Rate (latest)] - [Fed Funds Upper (latest)]
+		formatString: 0.00
+		displayFolder: 1 Overview
+		lineageTag: ad146e1b-8a54-58ad-9cc9-4bb6352944da
+
+	measure 'India CPI YoY %' = CALCULATE ( AVERAGE ( fact_macro[yoy_pct] ), dim_series[series_id] = "IN_CPI_MOSPI" ) / 100
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: c68222fa-0dd0-5c0c-a82d-9d3e5633bd67
+
+	measure 'US CPI YoY %' = CALCULATE ( AVERAGE ( fact_macro[yoy_pct] ), dim_series[series_id] = "US_CPI" ) / 100
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: 97e805ee-a71f-5746-9cbd-0605c67647a8
+
+	measure 'RBI Repo Rate %' = CALCULATE ( AVERAGE ( fact_macro[value] ), dim_series[series_id] = "IN_REPO" ) / 100
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: c6f2bb97-faa6-5d93-9b9d-de2535571cb0
+
+	measure 'Fed Funds Upper %' = CALCULATE ( AVERAGE ( fact_macro[value] ), dim_series[series_id] = "FFR_UPPER" ) / 100
+		formatString: 0.00%
+		displayFolder: 1 Overview
+		lineageTag: f357ced3-a460-5bf7-9fec-59381ac64ad4
+
+	measure 'RBI Net FX (USD bn, monthly)' = CALCULATE ( SUM ( fact_macro[value] ), dim_series[series_id] = "IN_RBI_FX_NET" ) / 1000
+		formatString: 0.0
+		displayFolder: 1 Overview
+		lineageTag: f115eb9f-ffb1-51cb-8f04-7f1e03f4ee6c
+
+	measure 'Event Marker (USDINR)' =
+			VAR _d = SELECTEDVALUE ( dim_date[date_key] )
+			VAR _isEvent =
+			    CALCULATE ( COUNTROWS ( fact_event_anchor ), fact_event_anchor[t0_date_key] = _d, fact_event_anchor[covered] = 1 )
+			RETURN IF ( _isEvent > 0, [USDINR Rate] )
+		formatString: 0.00
+		displayFolder: 2 Timeline
+		lineageTag: 613ee8b8-f0db-5ed4-a56d-9fb7d316e91f
+
+	measure 'Event t0 Date' =
+			VAR _b = SELECTEDVALUE ( dim_fx_basis[basis], "RBI" )
+			RETURN CALCULATE ( MIN ( fact_event_anchor[t0_date] ), fact_event_anchor[basis] = _b )
+		formatString: yyyy-mm-dd
+		displayFolder: 2 Timeline
+		lineageTag: 37656b31-0f8c-5ec9-b8d5-6e277d686720
+
+	measure 'Event Name on Date' =
+			VAR _d = SELECTEDVALUE ( dim_date[date_key] )
+			RETURN
+			    CONCATENATEX (
+			        FILTER ( fact_event_anchor, fact_event_anchor[t0_date_key] = _d ),
+			        RELATED ( dim_event[event_label] ), " | " )
+		displayFolder: 2 Timeline
+		lineageTag: 25fa7b94-f258-5920-8c5a-d8d347f86db2
+
+	measure 'Events in Selection' = DISTINCTCOUNT ( dim_event[event_id] )
+		formatString: 0
+		displayFolder: 2 Timeline
+		lineageTag: c25544f2-24ee-51dd-ab6b-6022890622cf
+
+	measure 'Window Change' =
+			CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			    fact_event_window[status] IN { "complete", "partial" } )
+		formatString: 0.00
+		displayFolder: 3 Event windows
+		lineageTag: 7388f005-5a85-5b85-92d2-d1496f6d3239
+
+	measure 'Window Change % (price series)' = IF ( SELECTEDVALUE ( dim_analysis_series[change_unit] ) = "%", [Window Change] / 100 )
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: 461115cf-5d68-5cb5-a512-e2fbb9bde675
+
+	measure 'USDINR Window Change % (matrix)' =
+			CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			    dim_analysis_series[series_id] = "USDINR",
+			    fact_event_window[status] IN { "complete", "partial" } ) / 100
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: 23540559-9378-51f9-9c6d-8940db527153
+
+	measure 'USDINR Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "USDINR",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: 752874eb-a46b-5fd3-8a5b-34610a57a12f
+
+	measure 'INR Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[inr_pct_change] ),
+			        dim_analysis_series[series_id] = "USDINR",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: f5a495a2-3a4d-5d72-b6fb-f92fa75fed16
+
+	measure 'USDINR minus Broad USD %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[usdinr_minus_dxy_pp] ),
+			        dim_analysis_series[series_id] = "USDINR",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: 92078d49-035d-5744-9998-995895f8e8b2
+
+	measure 'Median USDINR Window Change %' = MEDIANX ( VALUES ( dim_event[event_id] ), [USDINR Window Change %] )
+		formatString: 0.00%
+		displayFolder: 3 Event windows
+		lineageTag: e19434d6-3562-57da-98e4-96eddfd755c3
+
+	measure 'Events with INR Weaker' = COUNTROWS ( FILTER ( VALUES ( dim_event[event_id] ), [USDINR Window Change %] > 0 ) )
+		formatString: 0
+		displayFolder: 3 Event windows
+		lineageTag: a0c360bb-5cdd-5bae-a854-64d810536f98
+
+	measure 'Events Measured' = COUNTROWS ( FILTER ( VALUES ( dim_event[event_id] ), NOT ISBLANK ( [USDINR Window Change %] ) ) )
+		formatString: 0
+		displayFolder: 3 Event windows
+		lineageTag: a8fd4b44-61fa-5305-a040-c323a8a9edf0
+
+	measure 'Share of Events INR Weaker' = DIVIDE ( [Events with INR Weaker], [Events Measured] )
+		formatString: 0%
+		displayFolder: 3 Event windows
+		lineageTag: e6c7762d-d9c2-591c-99b3-579bf6dc7747
+
+	measure 'USDINR Baseline Percentile' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[percentile] ),
+			        dim_analysis_series[series_id] = "USDINR", fact_event_window[status] = "complete" ) )
+		formatString: 0.0
+		displayFolder: 3 Event windows
+		lineageTag: 2ae7ccba-8746-5f24-81c2-d3d455dd3b40
+
+	measure 'USDINR Baseline Z' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[z_score] ),
+			        dim_analysis_series[series_id] = "USDINR", fact_event_window[status] = "complete" ) )
+		formatString: 0.00
+		displayFolder: 3 Event windows
+		lineageTag: 685dfd44-2481-557e-ad79-8df7f79f59ed
+
+	measure 'Window Status' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( SELECTEDVALUE ( fact_event_window[status], "mixed" ), dim_analysis_series[series_id] = "USDINR" ) )
+		displayFolder: 3 Event windows
+		lineageTag: ef455df1-d4ba-54a5-b1e4-98c4f44ef560
+
+	measure 'Window Start Date' = IF ( HASONEVALUE ( dim_window[window_id] ), CALCULATE ( MIN ( fact_event_window[start_date] ), dim_analysis_series[series_id] = "USDINR" ) )
+		formatString: yyyy-mm-dd
+		displayFolder: 3 Event windows
+		lineageTag: c9986cf6-08f8-56bc-ae5c-ee237773bf3f
+
+	measure 'Window End Date' = IF ( HASONEVALUE ( dim_window[window_id] ), CALCULATE ( MAX ( fact_event_window[end_date] ), dim_analysis_series[series_id] = "USDINR" ) )
+		formatString: yyyy-mm-dd
+		displayFolder: 3 Event windows
+		lineageTag: 4920f366-e5a6-5ce7-bddf-bd3da897c395
+
+	measure 'Policy Changes in Window' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    VAR _t = SELECTCOLUMNS ( fact_event_window_context, "@txt",
+			        TRIM ( IF ( NOT ISBLANK ( fact_event_window_context[rbi_repo_changes] ), "RBI " & fact_event_window_context[rbi_repo_changes] )
+			            & IF ( NOT ISBLANK ( fact_event_window_context[fomc_target_changes] ), "  Fed " & fact_event_window_context[fomc_target_changes] ) ) )
+			    RETURN CONCATENATEX ( FILTER ( DISTINCT ( _t ), [@txt] <> "" ), [@txt], "; " ) )
+		displayFolder: 3 Event windows
+		lineageTag: c2fd4af6-48cf-5c16-b25a-fc518a3b1f18
+
+	measure 'Overlapping Events' = IF ( HASONEVALUE ( dim_window[window_id] ), CONCATENATEX ( FILTER ( DISTINCT ( SELECTCOLUMNS ( fact_event_window_context, "@o", fact_event_window_context[overlapping_events] ) ), [@o] <> "" ), [@o], ", " ) )
+		displayFolder: 3 Event windows
+		lineageTag: 7417e85d-102c-5c11-b5e4-3247e3d37dd9
+
+	measure 'RBI Net FX in Window (USD bn)' = IF ( HASONEVALUE ( dim_window[window_id] ), DIVIDE ( SUM ( fact_event_window_context[rbi_net_fx_usd_mn] ), 1000 ) )
+		formatString: 0.0
+		displayFolder: 3 Event windows
+		lineageTag: 68703142-c895-5349-889e-55fe7d2bd2a6
+
+	measure 'USDINR Path (t-1 = 100)' = CALCULATE ( AVERAGE ( fact_event_path[indexed_value] ), dim_analysis_series[series_id] = "USDINR" )
+		formatString: 0.00
+		displayFolder: 3 Event windows
+		lineageTag: ce2d4318-eb28-5fcb-888d-6016b8340a75
+
+	measure 'Brent Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "BRENT",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 4-5 Cross-asset
+		lineageTag: b8b5e04a-7aa5-58ba-b64b-7ff6fede6fe8
+
+	measure 'Gold Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "GOLD_USD",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 4-5 Cross-asset
+		lineageTag: eea431ec-2e63-5eeb-99f4-680a9a8e70f3
+
+	measure 'Nifty Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "NIFTY50",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 61493910-5147-5844-866e-171a5bd6a362
+
+	measure 'Broad USD Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "DXY_BROAD",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 4-5 Cross-asset
+		lineageTag: ae448b7b-1d41-5560-9a1e-d18f1973d536
+
+	measure 'VIX Window Change %' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[change] ),
+			        dim_analysis_series[series_id] = "VIX",
+			        fact_event_window[status] IN { "complete", "partial" } ) / 100 )
+		formatString: 0.00%
+		displayFolder: 4-5 Cross-asset
+		lineageTag: b6b912ff-2640-569c-b33c-9a8d409db797
+
+	measure 'Brent Path (t-1 = 100)' = CALCULATE ( AVERAGE ( fact_event_path[indexed_value] ), dim_analysis_series[series_id] = "BRENT" )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 559c6a86-9e13-50ec-b8d1-8981cb59fb75
+
+	measure 'Gold Path (t-1 = 100)' = CALCULATE ( AVERAGE ( fact_event_path[indexed_value] ), dim_analysis_series[series_id] = "GOLD_USD" )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: c0f363a3-c99a-5ac8-af03-60a48478c230
+
+	measure 'Nifty Path (t-1 = 100)' = CALCULATE ( AVERAGE ( fact_event_path[indexed_value] ), dim_analysis_series[series_id] = "NIFTY50" )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 5b9d5bc7-e3b7-5acb-8798-b9461aeb44fc
+
+	measure 'Brent (USD/bbl)' = AVERAGE ( fact_daily_aligned[brent] )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: f81eefd0-de6f-53e4-b28e-c64fc4f4ecd7
+
+	measure 'Gold (USD/oz)' = AVERAGE ( fact_daily_aligned[gold_usd] )
+		formatString: #,0
+		displayFolder: 4-5 Cross-asset
+		lineageTag: a460b46f-811a-5275-b8b2-352c2ce29d84
+
+	measure 'Nifty 50' = AVERAGE ( fact_daily_aligned[nifty50] )
+		formatString: #,0
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 0136e07b-3334-5669-89ac-548a3320f571
+
+	measure 'Broad USD Index' = AVERAGE ( fact_daily_aligned[dxy_broad] )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 721a2f7a-eb03-5fb5-8c01-0365fd5c1f5c
+
+	measure 'Corr USDINR~Brent (period)' =
+			VAR _t =
+			    FILTER ( fact_daily_aligned,
+			        NOT ISBLANK ( fact_daily_aligned[usdinr_logret] ) && NOT ISBLANK ( fact_daily_aligned[brent_logret] ) )
+			VAR _n = COUNTROWS ( _t )
+			VAR _mx = AVERAGEX ( _t, fact_daily_aligned[usdinr_logret] )
+			VAR _my = AVERAGEX ( _t, fact_daily_aligned[brent_logret] )
+			VAR _cov = SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) * ( fact_daily_aligned[brent_logret] - _my ) )
+			VAR _sx = SQRT ( SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) ^ 2 ) )
+			VAR _sy = SQRT ( SUMX ( _t, ( fact_daily_aligned[brent_logret] - _my ) ^ 2 ) )
+			RETURN IF ( _n >= 40, DIVIDE ( _cov, _sx * _sy ) )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: a159e1fc-9972-5079-90fe-350d6777dc4c
+
+	measure 'Corr USDINR~Gold (period)' =
+			VAR _t =
+			    FILTER ( fact_daily_aligned,
+			        NOT ISBLANK ( fact_daily_aligned[usdinr_logret] ) && NOT ISBLANK ( fact_daily_aligned[gold_logret] ) )
+			VAR _n = COUNTROWS ( _t )
+			VAR _mx = AVERAGEX ( _t, fact_daily_aligned[usdinr_logret] )
+			VAR _my = AVERAGEX ( _t, fact_daily_aligned[gold_logret] )
+			VAR _cov = SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) * ( fact_daily_aligned[gold_logret] - _my ) )
+			VAR _sx = SQRT ( SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) ^ 2 ) )
+			VAR _sy = SQRT ( SUMX ( _t, ( fact_daily_aligned[gold_logret] - _my ) ^ 2 ) )
+			RETURN IF ( _n >= 40, DIVIDE ( _cov, _sx * _sy ) )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: 07bb35cd-ff53-5e46-b359-9160b3290cba
+
+	measure 'Corr USDINR~Nifty (period)' =
+			VAR _t =
+			    FILTER ( fact_daily_aligned,
+			        NOT ISBLANK ( fact_daily_aligned[usdinr_logret] ) && NOT ISBLANK ( fact_daily_aligned[nifty_logret] ) )
+			VAR _n = COUNTROWS ( _t )
+			VAR _mx = AVERAGEX ( _t, fact_daily_aligned[usdinr_logret] )
+			VAR _my = AVERAGEX ( _t, fact_daily_aligned[nifty_logret] )
+			VAR _cov = SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) * ( fact_daily_aligned[nifty_logret] - _my ) )
+			VAR _sx = SQRT ( SUMX ( _t, ( fact_daily_aligned[usdinr_logret] - _mx ) ^ 2 ) )
+			VAR _sy = SQRT ( SUMX ( _t, ( fact_daily_aligned[nifty_logret] - _my ) ^ 2 ) )
+			RETURN IF ( _n >= 40, DIVIDE ( _cov, _sx * _sy ) )
+		formatString: 0.00
+		displayFolder: 4-5 Cross-asset
+		lineageTag: e0db9e51-3ca2-52a0-a622-3c61af36048f
+
+	measure 'Brent Vol 20d (ann. %)' = AVERAGE ( fact_daily_aligned[brent_vol20] ) / 100
+		formatString: 0.00%
+		displayFolder: 6 Volatility & correlation
+		lineageTag: 3f2bfacf-f5dd-5f40-9412-de3176b9adf3
+
+	measure 'Gold Vol 20d (ann. %)' = AVERAGE ( fact_daily_aligned[gold_vol20] ) / 100
+		formatString: 0.00%
+		displayFolder: 6 Volatility & correlation
+		lineageTag: e4a7092c-b56d-54a0-a1b4-c7f3304c848a
+
+	measure 'Rolling Corr 60d Brent' = AVERAGE ( fact_daily_aligned[corr60_brent] )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: f7e575e9-5aa9-5be0-85c3-a49dbf472be0
+
+	measure 'Rolling Corr 60d Gold' = AVERAGE ( fact_daily_aligned[corr60_gold] )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: 9358c3c0-9287-55e3-886c-27cba5036d7b
+
+	measure 'Rolling Corr 60d Broad USD' = AVERAGE ( fact_daily_aligned[corr60_dxy] )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: 5140f650-d84d-5783-b748-6d4eecb90938
+
+	measure 'Rolling Corr 60d VIX' = AVERAGE ( fact_daily_aligned[corr60_vix] )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: fe6ca805-6018-5b26-ad48-1e9829c9569e
+
+	measure 'Rolling Corr 60d Nifty' = AVERAGE ( fact_daily_aligned[corr60_nifty] )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: ce175171-4f28-55dd-ba8b-6e3347f13130
+
+	measure 'USDINR Window Vol (ann. %)' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    CALCULATE ( AVERAGE ( fact_event_window[window_vol_ann_pct] ),
+			        dim_analysis_series[series_id] = "USDINR", fact_event_window[status] = "complete" ) / 100 )
+		formatString: 0.00%
+		displayFolder: 6 Volatility & correlation
+		lineageTag: dedc965d-1709-5181-94b3-e4dec9425e7e
+
+	measure 'Window Corr' = IF ( HASONEVALUE ( dim_window[window_id] ), AVERAGE ( fact_event_window_corr[corr] ) )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: dcb34036-a8b3-5cf3-bc45-ab8f006467bc
+
+	measure 'Window Corr n' = IF ( HASONEVALUE ( dim_window[window_id] ), SUM ( fact_event_window_corr[n_obs] ) )
+		formatString: 0
+		displayFolder: 6 Volatility & correlation
+		lineageTag: 4a77ea46-f425-50b2-a3cc-fa3d3eda6386
+
+	measure 'Noise Band (±)' =
+			VAR _n = [Window Corr n]
+			RETURN IF ( _n > 3, 1.96 / SQRT ( _n - 1 ) )
+		formatString: 0.00
+		displayFolder: 6 Volatility & correlation
+		lineageTag: ae31b9d8-240d-5b74-aaf4-3e41aa5c7331
+
+	measure 'DQ Issues' = COUNTROWS ( dq_issues )
+		formatString: 0
+		displayFolder: 7 Data quality
+		lineageTag: 5323ae83-8b27-5cd7-835e-d1f00ca52f6a
+
+	measure 'DQ Warnings or Errors' = CALCULATE ( COUNTROWS ( dq_issues ), dq_issues[severity] IN { "warning", "error" } )
+		formatString: 0
+		displayFolder: 7 Data quality
+		lineageTag: 820af3f4-7fde-5bcc-89eb-42715247bf62
+
+	measure 'Pct Days Exact Match' = DIVIDE ( SUM ( dq_alignment[exact] ), SUM ( dq_alignment[days] ) )
+		formatString: 0.0%
+		displayFolder: 7 Data quality
+		lineageTag: 960476f2-b7a5-5c71-8ca9-6fbe93648f6b
+
+	measure 'Pct Days Carried Forward' = DIVIDE ( SUM ( dq_alignment[carried] ), SUM ( dq_alignment[days] ) )
+		formatString: 0.0%
+		displayFolder: 7 Data quality
+		lineageTag: 96657625-cd30-5852-a30c-7d72244c6300
+
+	measure 'Pct Days Missing' = DIVIDE ( SUM ( dq_alignment[missing] ), SUM ( dq_alignment[days] ) )
+		formatString: 0.0%
+		displayFolder: 7 Data quality
+		lineageTag: ba1bf382-5bbd-544a-be79-21e4e04b6d7e
+
+	measure 'FRED minus RBI (%)' = AVERAGE ( dq_fx_crosscheck[diff_pct] ) / 100
+		formatString: 0.00%
+		displayFolder: 7 Data quality
+		lineageTag: 78fac2c2-3ea1-50ff-89df-ef8589a8ba5c
+
+	measure 'Mean Abs FRED-RBI Gap (%)' = AVERAGEX ( dq_fx_crosscheck, ABS ( dq_fx_crosscheck[diff_pct] ) ) / 100
+		formatString: 0.00%
+		displayFolder: 7 Data quality
+		lineageTag: d763b72f-e011-56b7-89db-0fcf3a063b4e
+
+	measure 'Days > 0.5% Gap' = SUM ( dq_fx_crosscheck[large_gap_flag] )
+		formatString: 0
+		displayFolder: 7 Data quality
+		lineageTag: 435b0fbb-4e4e-5e73-ac2e-aa514416015a
+
+	measure 'Series Not OK' = CALCULATE ( COUNTROWS ( dq_series_coverage ), dq_series_coverage[status] <> "OK" )
+		formatString: 0
+		displayFolder: 7 Data quality
+		lineageTag: 6feb0302-6607-5515-9896-0fca08fcda89
+
+	measure 'Causality Caption' = "Association, not causation. Confounders: policy rates, oil, US dollar, risk sentiment, flows, RBI action."
+		displayFolder: 0 Captions
+		lineageTag: 02f8ccab-1ff3-528f-b110-9ea2867d18af
+
+	measure 'Basis Caption' =
+			VAR _b = SELECTEDVALUE ( dim_fx_basis[basis], "RBI" )
+			RETURN IF ( _b = "RBI",
+			    "Basis: RBI/FBIL reference rate (~13:30 IST), data to 29-Sep-2026",
+			    "Basis: Fed H.10 noon New York rate (cross-check), data to 25-Sep-2026" )
+		displayFolder: 0 Captions
+		lineageTag: e9b684a1-829e-5d23-8316-1ce7ca77888d
+
+	measure 'Window Caption' =
+			IF ( HASONEVALUE ( dim_window[window_id] ),
+			    "Window: " & SELECTEDVALUE ( dim_window[window_label] ) & " (" & SELECTEDVALUE ( dim_window[definition] ) & ")",
+			    "Select ONE window in the slicer to populate the cards, scatter and context table" )
+		displayFolder: 0 Captions
+		lineageTag: ce5dce4a-21e0-5976-a8ca-74c898660c22
+
+	column _
+		dataType: string
+		isHidden
+		lineageTag: 9ceace78-5bc1-52f3-9016-bf6331c8c49f
+		summarizeBy: none
+		sourceColumn: _
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [_ = text], {})
+				in
+				    Source
+

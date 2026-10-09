@@ -1,0 +1,64 @@
+table dim_analysis_series
+	lineageTag: dcfac078-d4f3-5ca5-bcb1-aade0ca240a5
+
+	column series_id
+		dataType: string
+		lineageTag: 9d81b2e5-8891-5339-a690-6e2fc70916b4
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column display_name
+		dataType: string
+		lineageTag: b140fab6-7b0c-5fbb-80d2-873b5a4eec9d
+		summarizeBy: none
+		sourceColumn: display_name
+		sortByColumn: sort_order
+
+	column unit
+		dataType: string
+		lineageTag: 8b4c93d1-e909-5cac-9763-ee29217da9d0
+		summarizeBy: none
+		sourceColumn: unit
+
+	column change_unit
+		dataType: string
+		lineageTag: 15c731b3-4aa4-54d2-b7ad-47fed6099a34
+		summarizeBy: none
+		sourceColumn: change_unit
+
+	column sort_order
+		dataType: int64
+		formatString: 0
+		lineageTag: e48c9bac-7ae2-52dd-b573-a4a18f0873da
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	column source_series_rbi_basis
+		dataType: string
+		lineageTag: c0d837bf-2a2b-5da6-ba3d-66ad76d21834
+		summarizeBy: none
+		sourceColumn: source_series_rbi_basis
+
+	column source_series_fred_basis
+		dataType: string
+		lineageTag: 1b93cc63-dd15-54f0-a59d-e0b3731f2261
+		summarizeBy: none
+		sourceColumn: source_series_fred_basis
+
+	column interpretation_of_positive
+		dataType: string
+		lineageTag: f83ca297-dfef-5816-b977-fa230cfdb295
+		summarizeBy: none
+		sourceColumn: interpretation_of_positive
+
+	partition dim_analysis_series = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_analysis_series.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"series_id", type text}, {"display_name", type text}, {"unit", type text}, {"change_unit", type text}, {"sort_order", Int64.Type}, {"source_series_rbi_basis", type text}, {"source_series_fred_basis", type text}, {"interpretation_of_positive", type text}}, "en-US")
+				in
+				    Typed
+

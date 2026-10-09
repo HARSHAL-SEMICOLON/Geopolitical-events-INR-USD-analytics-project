@@ -1,0 +1,58 @@
+table dq_fx_crosscheck
+	lineageTag: 4f956442-34de-5b64-a34b-53e39ce93b0f
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 349def90-5033-507f-80c4-fda0a0ac1483
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column rbi_ref
+		dataType: double
+		lineageTag: 240fd06a-d3fd-564f-9b80-35cbaf7e78af
+		summarizeBy: none
+		sourceColumn: rbi_ref
+
+	column fred_h10
+		dataType: double
+		lineageTag: 69484e71-d036-556d-93bd-0a572af89c5f
+		summarizeBy: none
+		sourceColumn: fred_h10
+
+	column status
+		dataType: string
+		lineageTag: 9b0e3dd1-588e-53b2-bb05-25cd7b7cec96
+		summarizeBy: none
+		sourceColumn: status
+
+	column diff_inr
+		dataType: double
+		lineageTag: e5e631df-96e7-577c-a0f8-d60fa234343f
+		summarizeBy: none
+		sourceColumn: diff_inr
+
+	column diff_pct
+		dataType: double
+		lineageTag: 9fce4639-86d0-5a94-bfa7-8d7e1fb4831c
+		summarizeBy: none
+		sourceColumn: diff_pct
+
+	column large_gap_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: bc26111c-9915-56ba-b661-7ef219860538
+		summarizeBy: none
+		sourceColumn: large_gap_flag
+
+	partition dq_fx_crosscheck = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dq_fx_crosscheck.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"date_key", Int64.Type}, {"rbi_ref", type number}, {"fred_h10", type number}, {"status", type text}, {"diff_inr", type number}, {"diff_pct", type number}, {"large_gap_flag", Int64.Type}}, "en-US")
+				in
+				    Typed
+

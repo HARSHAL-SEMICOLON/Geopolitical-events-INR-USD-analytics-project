@@ -1,0 +1,174 @@
+table fact_event_window
+	lineageTag: 52b0b079-f813-56f7-9894-e39767c63416
+
+	column basis
+		dataType: string
+		lineageTag: 66bbde59-59b0-5489-a9f6-26e36dd34f59
+		summarizeBy: none
+		sourceColumn: basis
+
+	column event_id
+		dataType: string
+		lineageTag: 3e50ad39-6622-508c-92f7-74f3f971f205
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column window_id
+		dataType: string
+		lineageTag: d0846dfd-e983-5b95-bad4-a11d664f16bb
+		summarizeBy: none
+		sourceColumn: window_id
+
+	column series_id
+		dataType: string
+		lineageTag: 08f76698-2a66-5339-8b00-eeb85434621c
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column status
+		dataType: string
+		lineageTag: ce3239f5-5121-5ab3-b5e9-ee7fb59c7953
+		summarizeBy: none
+		sourceColumn: status
+
+	column start_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 27d78a27-36c2-541d-a3ab-96d79b4e19a6
+		summarizeBy: none
+		sourceColumn: start_date
+
+	column end_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 4237db1d-0f42-5561-a44d-267affb787e1
+		summarizeBy: none
+		sourceColumn: end_date
+
+	column trading_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 620c24f6-c63f-5617-9143-d07f9a9ae2cb
+		summarizeBy: none
+		sourceColumn: trading_days
+
+	column start_value
+		dataType: double
+		lineageTag: 518b4b49-3b08-5ddc-94d9-f60078079b48
+		summarizeBy: none
+		sourceColumn: start_value
+
+	column end_value
+		dataType: double
+		lineageTag: 00f4eecc-0109-5834-bc0b-5980706ff8b7
+		summarizeBy: none
+		sourceColumn: end_value
+
+	column change
+		dataType: double
+		lineageTag: 2f813be1-d80b-5e9b-9033-ac7e8d5a781e
+		summarizeBy: none
+		sourceColumn: change
+
+	column log_change
+		dataType: double
+		lineageTag: a99665b2-52eb-5421-92a5-2f92514dd70b
+		summarizeBy: none
+		sourceColumn: log_change
+
+	column change_unit
+		dataType: string
+		lineageTag: 4c4322a9-04aa-5f40-b3f7-43837016be7d
+		summarizeBy: none
+		sourceColumn: change_unit
+
+	column n_returns
+		dataType: int64
+		formatString: 0
+		lineageTag: 35418bbe-d8c5-55ae-a32e-d6f93be8a42f
+		summarizeBy: none
+		sourceColumn: n_returns
+
+	column window_vol_ann_pct
+		dataType: double
+		lineageTag: 0d36283b-66d8-53c4-b385-aef552d16a21
+		summarizeBy: none
+		sourceColumn: window_vol_ann_pct
+
+	column start_staleness_days
+		dataType: double
+		lineageTag: 73de28f7-71ae-5fcb-9fb0-5fbbe9cb1386
+		summarizeBy: none
+		sourceColumn: start_staleness_days
+
+	column end_staleness_days
+		dataType: double
+		lineageTag: b01135ec-488f-5bae-b1e0-8b9ef2036fa6
+		summarizeBy: none
+		sourceColumn: end_staleness_days
+
+	column inr_pct_change
+		dataType: double
+		lineageTag: 3d9ab4fd-2cc3-5441-a44d-cbf95f468915
+		summarizeBy: none
+		sourceColumn: inr_pct_change
+
+	column usdinr_minus_dxy_pp
+		dataType: double
+		lineageTag: 5e27a180-53e6-5bab-820d-6343f3d05f90
+		summarizeBy: none
+		sourceColumn: usdinr_minus_dxy_pp
+
+	column baseline_n
+		dataType: double
+		lineageTag: 0dc592d9-eff7-5fa2-89d4-7bacfe42f42c
+		summarizeBy: none
+		sourceColumn: baseline_n
+
+	column baseline_mean_pct
+		dataType: double
+		lineageTag: a2205d1f-52a0-52d5-8363-f18a692f5eb0
+		summarizeBy: none
+		sourceColumn: baseline_mean_pct
+
+	column baseline_sd_pct
+		dataType: double
+		lineageTag: 16eff87e-236a-53c9-8c1d-526a94dc396c
+		summarizeBy: none
+		sourceColumn: baseline_sd_pct
+
+	column z_score
+		dataType: double
+		lineageTag: 40b99355-d9eb-5703-a6ef-7d26ed1a6e94
+		summarizeBy: none
+		sourceColumn: z_score
+
+	column percentile
+		dataType: double
+		lineageTag: 854ccc98-0faf-5e47-a18c-b5398c3e1064
+		summarizeBy: none
+		sourceColumn: percentile
+
+	column direction
+		dataType: string
+		lineageTag: 07313655-725d-5a75-a8f8-731fbf03af98
+		summarizeBy: none
+		sourceColumn: direction
+
+	column is_unusual_2sd
+		dataType: double
+		lineageTag: a9bcb541-c926-55ac-af91-3b755c3e2fa8
+		summarizeBy: none
+		sourceColumn: is_unusual_2sd
+
+	partition fact_event_window = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_event_window.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"event_id", type text}, {"window_id", type text}, {"series_id", type text}, {"status", type text}, {"start_date", type date}, {"end_date", type date}, {"trading_days", Int64.Type}, {"start_value", type number}, {"end_value", type number}, {"change", type number}, {"log_change", type number}, {"change_unit", type text}, {"n_returns", Int64.Type}, {"window_vol_ann_pct", type number}, {"start_staleness_days", type number}, {"end_staleness_days", type number}, {"inr_pct_change", type number}, {"usdinr_minus_dxy_pp", type number}, {"baseline_n", type number}, {"baseline_mean_pct", type number}, {"baseline_sd_pct", type number}, {"z_score", type number}, {"percentile", type number}, {"direction", type text}, {"is_unusual_2sd", type number}}, "en-US")
+				in
+				    Typed
+

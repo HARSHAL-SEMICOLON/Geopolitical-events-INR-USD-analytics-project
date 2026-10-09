@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "p4_oil",
+  "displayName": "4 INR vs Crude Oil",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "p4_oil_event",
+      "target": "p4_oil_usd",
+      "type": "NoFilter"
+    },
+    {
+      "source": "p4_oil_event",
+      "target": "p4_oil_brent",
+      "type": "NoFilter"
+    },
+    {
+      "source": "p4_oil_event",
+      "target": "p4_oil_sc",
+      "type": "NoFilter"
+    },
+    {
+      "source": "p4_oil_event",
+      "target": "p4_oil_corr",
+      "type": "NoFilter"
+    }
+  ]
+}

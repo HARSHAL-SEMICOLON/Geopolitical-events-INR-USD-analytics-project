@@ -1,0 +1,11 @@
+metric,value,unit,explanation
+fx_days_both_sources,3180.0,days,Days where both RBI reference rate and Fed H.10 rate exist
+fx_mean_abs_diff_pct,0.17378551218390062,%,Average |FRED - RBI| / RBI
+fx_daily_return_corr,0.5642524827786821,corr,Correlation of DAILY log returns - lowered by the ~9h timestamp gap
+fx_weekly_return_corr,0.8913962459866902,corr,Correlation of WEEKLY (Fri) log returns - timestamp noise mostly washes out
+rbi_last_date,20260929.0,yyyymmdd,RBI DBIE export ends here; later events use FRED basis
+events_total,13.0,count,Events in dim_event
+event_windows_complete_rbi,103.0,count,USD/INR event windows with both endpoints on the RBI calendar
+event_windows_with_overlap,4.0,count,Event windows that contain another event's anchor day (all bases)
+event_windows_with_policy_change,53.0,count,Event windows containing an RBI repo change or FOMC target change (all bases)
+nifty_loaded,1.0,flag,1 once Nifty CSVs are in 01_Data/1_Raw/NSE_Nifty50 and the pipeline is re-run

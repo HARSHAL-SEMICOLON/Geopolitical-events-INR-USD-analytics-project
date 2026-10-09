@@ -1,0 +1,73 @@
+table dq_series_coverage
+	lineageTag: c5a18ca1-567f-5e2f-a143-bb0d7f899a51
+
+	column series_id
+		dataType: string
+		lineageTag: 5d39f920-adc2-5598-8b99-444538f6bf2f
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column first_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 002cf13f-fec8-5163-89b4-c106c281dca9
+		summarizeBy: none
+		sourceColumn: first_date
+
+	column last_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 53f4742e-a101-57b2-a63c-fbca4b053d45
+		summarizeBy: none
+		sourceColumn: last_date
+
+	column n_obs
+		dataType: int64
+		formatString: 0
+		lineageTag: 85b10428-55c4-529b-8836-190457deca8a
+		summarizeBy: none
+		sourceColumn: n_obs
+
+	column expected_frequency
+		dataType: string
+		lineageTag: 08e5a7af-43cb-573d-81e4-512d60185214
+		summarizeBy: none
+		sourceColumn: expected_frequency
+
+	column max_gap_calendar_days
+		dataType: int64
+		formatString: 0
+		lineageTag: aae0fb4b-8404-5bab-b6b0-ad7dfc44c754
+		summarizeBy: none
+		sourceColumn: max_gap_calendar_days
+
+	column gaps_over_5d
+		dataType: double
+		lineageTag: cb995c0a-f85a-57f0-a754-660e1e222aad
+		summarizeBy: none
+		sourceColumn: gaps_over_5d
+
+	column days_behind_build_date
+		dataType: int64
+		formatString: 0
+		lineageTag: c2f5d4b3-7b62-53bc-bd8d-5a61c9033b33
+		summarizeBy: none
+		sourceColumn: days_behind_build_date
+
+	column status
+		dataType: string
+		lineageTag: 13f55625-6cb9-5a6a-ae39-c23fdb7a2cb0
+		summarizeBy: none
+		sourceColumn: status
+
+	partition dq_series_coverage = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dq_series_coverage.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"series_id", type text}, {"first_date", type date}, {"last_date", type date}, {"n_obs", Int64.Type}, {"expected_frequency", type text}, {"max_gap_calendar_days", Int64.Type}, {"gaps_over_5d", type number}, {"days_behind_build_date", Int64.Type}, {"status", type text}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,144 @@
+table dim_event
+	lineageTag: da5f4840-1ef5-513f-924d-7a4e25479bbb
+
+	column event_id
+		dataType: string
+		lineageTag: dbc0c4a4-97eb-500f-9f98-312fb48ff670
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column event_name
+		dataType: string
+		lineageTag: ad00bdaf-b366-5996-82e0-5260e048a1b5
+		summarizeBy: none
+		sourceColumn: event_name
+
+	column short_name
+		dataType: string
+		lineageTag: 1c506f68-a09d-5be6-b580-20de784bc8d3
+		summarizeBy: none
+		sourceColumn: short_name
+
+	column event_type
+		dataType: string
+		lineageTag: 8ec046ab-df7a-51ae-8b41-80bdbc90ffcc
+		summarizeBy: none
+		sourceColumn: event_type
+
+	column affected_region
+		dataType: string
+		lineageTag: b3d679ac-f4d7-5337-bf6b-c14e88e2a824
+		summarizeBy: none
+		sourceColumn: affected_region
+
+	column india_direct
+		dataType: string
+		lineageTag: 042cbfbb-8cb0-5143-9ed3-9dbc1c9178da
+		summarizeBy: none
+		sourceColumn: india_direct
+
+	column event_start_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 6b75bf20-c3a9-5110-828c-2622438b5efc
+		summarizeBy: none
+		sourceColumn: event_start_date
+
+	column event_end_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a74f46fc-4a5b-59b0-b777-cb44fe2e9ecd
+		summarizeBy: none
+		sourceColumn: event_end_date
+
+	column end_date_basis
+		dataType: string
+		lineageTag: 1afe7b03-8826-5618-8116-3c83b880ba7a
+		summarizeBy: none
+		sourceColumn: end_date_basis
+
+	column anchor_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e32b7879-1298-5840-abb2-a1ce0c381dfd
+		summarizeBy: none
+		sourceColumn: anchor_date
+
+	column anchor_rule
+		dataType: string
+		lineageTag: 134b2402-d20f-5ea1-987e-e2a971a6dc9f
+		summarizeBy: none
+		sourceColumn: anchor_rule
+
+	column timing_note
+		dataType: string
+		lineageTag: 188733ae-3ba7-5c64-98a8-8234a94303be
+		summarizeBy: none
+		sourceColumn: timing_note
+
+	column source_org
+		dataType: string
+		lineageTag: 9bb6a76e-abe5-568e-9a25-066803117f5d
+		summarizeBy: none
+		sourceColumn: source_org
+
+	column source_title
+		dataType: string
+		lineageTag: f8238107-9dff-568a-adb5-15cc3872d758
+		summarizeBy: none
+		sourceColumn: source_title
+
+	column source_url
+		dataType: string
+		lineageTag: 071d0287-5905-512b-92b0-c40b2ee783a0
+		summarizeBy: none
+		sourceColumn: source_url
+
+	column source_pub_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b268ced6-88be-581d-8f6a-5122d801c7cb
+		summarizeBy: none
+		sourceColumn: source_pub_date
+
+	column source_type
+		dataType: string
+		lineageTag: d9404ced-81ee-5143-a341-692c5d9ed6b4
+		summarizeBy: none
+		sourceColumn: source_type
+
+	column selection_rationale
+		dataType: string
+		lineageTag: c2fe20c5-7154-562d-b35e-483fd1a50623
+		summarizeBy: none
+		sourceColumn: selection_rationale
+
+	column known_concurrent_factors
+		dataType: string
+		lineageTag: 60676561-515f-5076-8b04-8533ac35c395
+		summarizeBy: none
+		sourceColumn: known_concurrent_factors
+
+	column duration_days
+		dataType: double
+		lineageTag: cbc82237-27cd-5d84-8b56-68d7e95b09b7
+		summarizeBy: none
+		sourceColumn: duration_days
+
+	column event_label
+		dataType: string
+		lineageTag: 2d6e97c7-490e-5761-b5c2-671c8b063e15
+		summarizeBy: none
+		sourceColumn: event_label
+
+	partition dim_event = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_event.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"event_id", type text}, {"event_name", type text}, {"short_name", type text}, {"event_type", type text}, {"affected_region", type text}, {"india_direct", type text}, {"event_start_date", type date}, {"event_end_date", type date}, {"end_date_basis", type text}, {"anchor_date", type date}, {"anchor_rule", type text}, {"timing_note", type text}, {"source_org", type text}, {"source_title", type text}, {"source_url", type text}, {"source_pub_date", type date}, {"source_type", type text}, {"selection_rationale", type text}, {"known_concurrent_factors", type text}, {"duration_days", type number}, {"event_label", type text}}, "en-US")
+				in
+				    Typed
+

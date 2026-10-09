@@ -1,0 +1,44 @@
+stage,series_id,obs_date,rule,detail,severity,action
+ingest,USDINR_RBI,,holiday_rows,3 dates listed with '-' (no reference rate),info,treated as non-trading days
+ingest,USDINR_RBI,,null_values,3 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_RBI_IBTABLE,2025-12-20,weekend_value,value on a Saturday in the interbank table,warning,not used - primary series comes from the Daily Exchange Rate table
+ingest,USDINR_RBI_CLOSE,,high_low_convention,'High' < 'Low' on 95% of rows - RBI quotes High/Low in rupee terms,info,columns renamed inr_strongest / inr_weakest in fact_fx
+ingest,USDINR_RBI_IBTABLE,,null_values,25 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_RBI_CLOSE,,null_values,170 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_RBI_OPEN,,null_values,176 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_RBI_INRSTRONG,,null_values,169 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_RBI_INRWEAK,,null_values,168 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,IN_CPI_MOSPI,,cpi_block,"base 2010=100: 48 All-India rows Jan-2011..Dec-2014, 35 with published YoY",info,
+ingest,IN_CPI_MOSPI,,cpi_block,"base 2012=100: 156 All-India rows Jan-2013..Dec-2025, 144 with published YoY",info,
+ingest,IN_CPI_MOSPI,,cpi_block,"base 2024=100: 164 All-India rows Jan-2013..Aug-2026, 152 with published YoY",info,
+ingest,IN_CPI_MOSPI,,series_break,"CPI base changes 2010->2012 (Jan-2014) and 2012->2024 (Jan-2026); index LEVELS are not comparable across the break, published YoY inflation is used for charts",warning,base year stored per row (fact_macro.series_version)
+ingest,IN_RBI_FX_NET,,definition,"net purchase(+)/sale(-) of FX by RBI incl. swap and outright-forward legs, by VALUE date (RBI note)",info,monthly; attributed to event windows by calendar month
+ingest,BRENT,,null_values,111 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,DXY_BROAD,,null_values,212 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,UST10Y,,null_values,720 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,VIX,,null_values,302 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,US_CPI,,null_values,1 period rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,IN_FX_RESERVES,,null_values,66 period rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,USDINR_FRED,,null_values,551 weekday rows inside the series range have no value (holidays / not published),info,"dropped (treated as no observation, never as zero)"
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012013to01012014.csv: 251 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012014to01012015.csv: 245 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012015to01012016.csv: 249 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012016to31122016.csv: 247 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012017to01012018.csv: 249 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012018to01012019.csv: 247 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012019to01012020.csv: 246 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012020to31122020.csv: 252 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012021to01012022.csv: 248 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012022to31122022.csv: 248 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012023to01012024.csv: 247 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012024to31122024.csv: 249 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012025to01012026.csv: 250 rows,info,
+ingest,NIFTY50,,file_loaded,NIFTY 50_Historical_PR_01012026to30092026.csv: 184 rows,info,
+ingest,NIFTY50,,boundary_duplicates,8 identical rows repeated across yearly files,info,de-duplicated
+ingest,USDINR_RBI,,table_crosscheck,"3472 shared dates: 2815 identical, 628 differ by <= 0.005 (rounding), 29 differ by more",info,Daily Exchange Rate table used as primary
+ingest,USDINR_RBI,2013-07-18,table_conflict,Daily Exchange Rate table 60.0510 vs interbank table 59.7100,warning,kept primary value as published; not near any event anchor - review
+ingest,USDINR_RBI,2019-10-29,table_conflict,Daily Exchange Rate table 70.7303 vs interbank table 70.9523,warning,kept primary value as published; not near any event anchor - review
+ingest,USDINR_RBI,2019-10-30,table_conflict,Daily Exchange Rate table 70.9915 vs interbank table 70.7303,warning,kept primary value as published; not near any event anchor - review
+ingest,USDINR_RBI,2019-10-31,table_conflict,Daily Exchange Rate table 70.8095 vs interbank table 70.9915,warning,kept primary value as published; not near any event anchor - review
+ingest,USDINR_RBI,2019-11-01,table_conflict,Daily Exchange Rate table 70.8798 vs interbank table 70.8095,warning,kept primary value as published; not near any event anchor - review
+ingest,USDINR_RBI_IBTABLE,,carried_forward_copies,"11 dates (mostly 1 April - banks' annual closing) repeat the previous day's value exactly: 2014-03-31, 2015-04-01, 2016-04-01, 2016-07-06, 2018-04-02, 2020-04-01, 2021-04-01, 2022-04-01, 2024-04-01, 2025-04-01, 2026-04-01",info,excluded - not present in the primary table

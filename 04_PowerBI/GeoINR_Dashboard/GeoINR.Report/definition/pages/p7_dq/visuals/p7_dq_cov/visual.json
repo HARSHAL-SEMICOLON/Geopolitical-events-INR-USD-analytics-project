@@ -1,0 +1,203 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p7_dq_cov",
+  "position": {
+    "x": 16,
+    "y": 176,
+    "z": 1000,
+    "height": 238,
+    "width": 620,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "series_id"
+                }
+              },
+              "queryRef": "dq_series_coverage.series_id",
+              "nativeQueryRef": "series_id",
+              "displayName": "Series"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "first_date"
+                }
+              },
+              "queryRef": "dq_series_coverage.first_date",
+              "nativeQueryRef": "first_date",
+              "displayName": "First"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "last_date"
+                }
+              },
+              "queryRef": "dq_series_coverage.last_date",
+              "nativeQueryRef": "last_date",
+              "displayName": "Last"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "n_obs"
+                }
+              },
+              "queryRef": "dq_series_coverage.n_obs",
+              "nativeQueryRef": "n_obs",
+              "displayName": "Obs"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "max_gap_calendar_days"
+                }
+              },
+              "queryRef": "dq_series_coverage.max_gap_calendar_days",
+              "nativeQueryRef": "max_gap_calendar_days",
+              "displayName": "Max gap (days)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_series_coverage"
+                    }
+                  },
+                  "Property": "status"
+                }
+              },
+              "queryRef": "dq_series_coverage.status",
+              "nativeQueryRef": "status",
+              "displayName": "Status"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Series coverage'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

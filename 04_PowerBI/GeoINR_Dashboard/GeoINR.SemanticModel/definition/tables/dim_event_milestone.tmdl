@@ -1,0 +1,65 @@
+table dim_event_milestone
+	lineageTag: 246f1e96-57ca-5a58-ba78-0d899929068d
+
+	column event_id
+		dataType: string
+		lineageTag: c4104f29-1e0c-56cf-bf0a-d085ee884c55
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column milestone_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 488d4350-69d6-50d4-b4ef-950d83522cc6
+		summarizeBy: none
+		sourceColumn: milestone_date
+
+	column milestone
+		dataType: string
+		lineageTag: 2ad8b537-84fa-549b-98f6-7a7c613b6e1c
+		summarizeBy: none
+		sourceColumn: milestone
+
+	column source_org
+		dataType: string
+		lineageTag: 1d4bf761-5b74-5503-a78f-9c4461ec79e6
+		summarizeBy: none
+		sourceColumn: source_org
+
+	column source_url
+		dataType: string
+		lineageTag: 1d8cd150-6804-5187-838c-1ab5863a35cc
+		summarizeBy: none
+		sourceColumn: source_url
+
+	column source_pub_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e7d46daa-963a-501a-af9e-19abf3dc36dc
+		summarizeBy: none
+		sourceColumn: source_pub_date
+
+	column source_type
+		dataType: string
+		lineageTag: f67ff8b5-ac86-5ccb-a8be-fd49dc2a6953
+		summarizeBy: none
+		sourceColumn: source_type
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f34f9eb9-a45c-5e30-af9f-a3f351bedadc
+		summarizeBy: none
+		sourceColumn: date_key
+
+	partition dim_event_milestone = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_event_milestone.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"event_id", type text}, {"milestone_date", type date}, {"milestone", type text}, {"source_org", type text}, {"source_url", type text}, {"source_pub_date", type date}, {"source_type", type text}, {"date_key", Int64.Type}}, "en-US")
+				in
+				    Typed
+

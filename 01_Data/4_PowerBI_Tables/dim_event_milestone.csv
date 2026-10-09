@@ -1,0 +1,27 @@
+event_id,milestone_date,milestone,source_org,source_url,source_pub_date,source_type,date_key
+E01,2014-03-01,Russian Federation Council authorises use of armed forces in Ukraine,Radio Free Europe/Radio Liberty,https://www.rferl.org/a/ukraine-crimea-forces-russian/25281291.html,2014-03-01,News,20140301
+E01,2014-03-18,Putin address; treaty on Crimea's accession signed,President of Russia (Kremlin),http://en.kremlin.ru/events/president/news/20603,2014-03-18,Official,20140318
+E02,2016-09-18,Uri army base attack (context - pre-event),Wikipedia summary of official sources,https://en.wikipedia.org/wiki/2016_Uri_attack,,Secondary,20160918
+E02,2016-09-29,DGMO announces surgical strikes across the LoC,PIB via GlobalSecurity,https://www.globalsecurity.org/wmd/library/news/india/2016/india-160929-pdo01.htm,2016-09-29,Official (mirror),20160929
+E03,2017-06-16,Standoff begins at Doklam (per MEA),Ministry of External Affairs,https://www.mea.gov.in/press-releases.htm?dtl/28572/Recent_Developments_in_Doklam_Area,2017-06-30,Official,20170616
+E03,2017-06-30,MEA press release on Doklam,Ministry of External Affairs,https://www.mea.gov.in/press-releases.htm?dtl/28572/Recent_Developments_in_Doklam_Area,2017-06-30,Official,20170630
+E03,2017-08-28,Disengagement understanding announced,The Kathmandu Post,https://kathmandupost.com/world/2017/08/28/india-china-agree-to-end-border-dispute-at-doklam,2017-08-28,News,20170828
+E04,2019-02-14,Pulwama attack on CRPF convoy,Wikipedia summary of official sources,https://en.wikipedia.org/wiki/2019_Pulwama_attack,,Secondary,20190214
+E04,2019-02-26,IAF strike on JeM camp at Balakot,Ministry of External Affairs,https://www.mea.gov.in/media-briefings.htm?dtl/31090/Statement+by+Foreign+Secretary+on+26+February+2019+on+the+Strike+on+JeM+training+camp+at+Balakot,2019-02-26,Official,20190226
+E04,2019-03-01,Captured IAF pilot returned (de-escalation),Wikipedia summary of official sources,https://en.wikipedia.org/wiki/2019_Pulwama_attack,,Secondary,20190301
+E05,2020-01-03,US strike kills Qassem Soleimani in Baghdad,Military.com,https://www.military.com/daily-news/2020/01/02/pentagon-confirms-us-killed-gen-suleimani-head-irans-elite-quds-force.html,2020-01-02,News,20200103
+E06,2020-06-16,Indian Army confirms fatalities from Galwan clash,Zee News,https://zeenews.india.com/india/20-soldiers-martyred-in-galwan-valley-face-off-indian-army-vows-to-protect-nations-territorial-integrity-2290349.html,2020-06-16,News,20200616
+E07,2022-02-24,Russia launches full-scale invasion,President of Russia (Kremlin),http://www.en.kremlin.ru/events/president/transcripts/67843,2022-02-24,Official,20220224
+E08,2023-10-07,Hamas attack on southern Israel,United Nations,https://press.un.org/en/2023/sgsm21981.doc.htm,2023-10-07,Official,20231007
+E09,2024-04-13,Iran launches drones and missiles at Israel,United Nations Secretary-General,https://www.un.org/sg/en/content/sg/statements/2024-04-13/statement-the-secretary-general-regarding-attacks-the-islamic-republic-of-iran-targeting-israel,2024-04-13,Official,20240413
+E10,2025-04-22,Pahalgam terror attack,Ministry of External Affairs (briefing 23 Apr),https://www.globalsecurity.org/wmd/library/news/india/2025/india-250423-india-meab01.htm,2025-04-23,Official (mirror),20250422
+E10,2025-04-23,CCS measures incl. Indus Waters Treaty held in abeyance,Ministry of External Affairs,https://www.globalsecurity.org/wmd/library/news/india/2025/india-250423-india-meab01.htm,2025-04-23,Official (mirror),20250423
+E10,2025-05-07,Operation Sindoor precision strikes,Press Information Bureau (Ministry of Defence),https://www.pib.gov.in/PressReleasePage.aspx?PRID=2127370,2025-05-07,Official,20250507
+E10,2025-05-10,Understanding to stop firing and military action,Ministry of External Affairs,https://www.mea.gov.in/Speeches-Statements.htm?dtl/39489/Statement_by_Foreign_Secretary_May_10_2025,2025-05-10,Official,20250510
+E11,2025-06-13,Israeli strikes on Iran begin,United Nations (UN News),https://news.un.org/en/story/2025/06/1164351,2025-06-13,Official,20250613
+E11,2025-06-24,Israel-Iran ceasefire in effect,NPR,https://www.npr.org/2025/06/24/nx-s1-5443201/israel-iran-ceasefire-trump,2025-06-24,News,20250624
+E12,2026-02-28,US and Israeli strikes on Iran begin,United Nations Secretary-General,https://www.un.org/sg/en/content/sg/statements/2026-02-28/secretary-generals-remarks-the-security-council-meeting-the-situation-the-middle-east-delivered,2026-02-28,Official,20260228
+E12,2026-03-20,Strait of Hormuz effectively closed to most traffic (approx. 18-20 Mar),Wikipedia oil-market chronology (compiles wire reports),https://en.wikipedia.org/wiki/2026%E2%80%932028_world_oil_market_chronology,,Secondary - verify,20260320
+E12,2026-04-08,US-Iran ceasefire announced,CNN,https://www.cnn.com/2026/04/08/middleeast/us-iran-ceasefire-explainer-war-intl-hnk,2026-04-08,News,20260408
+E12,2026-05-07,World Bank: Brent posted its highest monthly rise on record in March 2026,World Bank Data Blog,https://blogs.worldbank.org/en/opendata/strait-of-hormuz-disruption-sends-oil-prices-surging,2026-05-07,Official (IFI),20260507
+E13,2026-07-08,US strikes on Iran after attacks on shipping in Hormuz,Al Jazeera,https://www.aljazeera.com/news/2026/7/8/oil-prices-surge-as-us-strikes-iran-reversing-fall-to-pre-war-levels,2026-07-08,News,20260708

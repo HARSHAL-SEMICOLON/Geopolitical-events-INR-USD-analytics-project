@@ -1,0 +1,64 @@
+table fact_macro
+	lineageTag: 9103d20e-a9e9-5f15-acbc-d0bf0ecf413e
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 6fd402d4-61e5-5a71-beb7-156647f560df
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column series_id
+		dataType: string
+		lineageTag: e3e6b275-3233-534e-a56b-0273a138273c
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column period_start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 574afcba-07ee-5093-8f3f-c15b4e02472d
+		summarizeBy: none
+		sourceColumn: period_start
+
+	column frequency
+		dataType: string
+		lineageTag: 542c362a-8c2c-5176-81a9-cf154ba3b6af
+		summarizeBy: none
+		sourceColumn: frequency
+
+	column value
+		dataType: double
+		lineageTag: 6be0c11f-eb4c-50cd-9ed9-db66cbe48db3
+		summarizeBy: none
+		sourceColumn: value
+
+	column yoy_pct
+		dataType: double
+		lineageTag: 31d9752d-7096-5954-ab47-ad86a0ceb0d8
+		summarizeBy: none
+		sourceColumn: yoy_pct
+
+	column mom_change
+		dataType: double
+		lineageTag: 75db95cb-cede-57ea-bd38-f9a658f03b38
+		summarizeBy: none
+		sourceColumn: mom_change
+
+	column series_version
+		dataType: string
+		lineageTag: 144f39ab-ef87-54a2-a6bb-661634072229
+		summarizeBy: none
+		sourceColumn: series_version
+
+	partition fact_macro = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_macro.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"date_key", Int64.Type}, {"series_id", type text}, {"period_start", type date}, {"frequency", type text}, {"value", type number}, {"yoy_pct", type number}, {"mom_change", type number}, {"series_version", type text}}, "en-US")
+				in
+				    Typed
+

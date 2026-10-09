@@ -1,0 +1,39 @@
+table dim_fx_basis
+	lineageTag: 436a9306-61f0-529a-8ce0-864b2f3e6b7c
+
+	column basis
+		dataType: string
+		lineageTag: 4c91e811-8aa1-5d98-8f9a-8f9a3dab51a0
+		summarizeBy: none
+		sourceColumn: basis
+
+	column fx_series_id
+		dataType: string
+		lineageTag: edfdefd7-1f35-50a1-81f2-9fbcb44a0f0f
+		summarizeBy: none
+		sourceColumn: fx_series_id
+
+	column calendar_definition
+		dataType: string
+		lineageTag: 4680fe17-8d71-5ded-a550-80a0aed9509b
+		summarizeBy: none
+		sourceColumn: calendar_definition
+
+	column is_primary
+		dataType: int64
+		formatString: 0
+		lineageTag: 9af2205b-b87a-5031-9fdd-4c88e16e9e03
+		summarizeBy: none
+		sourceColumn: is_primary
+
+	partition dim_fx_basis = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_fx_basis.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"fx_series_id", type text}, {"calendar_definition", type text}, {"is_primary", Int64.Type}}, "en-US")
+				in
+				    Typed
+

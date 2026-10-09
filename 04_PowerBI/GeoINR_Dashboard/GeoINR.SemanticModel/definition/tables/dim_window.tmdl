@@ -1,0 +1,60 @@
+table dim_window
+	lineageTag: a97134fe-dbff-51c1-ba0f-7054aa7d40b7
+
+	column window_id
+		dataType: string
+		lineageTag: 2c6f9e86-d67e-58e6-807a-26f93d5388c5
+		summarizeBy: none
+		sourceColumn: window_id
+
+	column window_label
+		dataType: string
+		lineageTag: e5fe802d-268e-5b05-8352-a3e0ed705e3b
+		summarizeBy: none
+		sourceColumn: window_label
+		sortByColumn: sort_order
+
+	column start_offset
+		dataType: int64
+		formatString: 0
+		lineageTag: 67d1330b-dbd6-5aec-a984-f7546ddfca2e
+		summarizeBy: none
+		sourceColumn: start_offset
+
+	column end_offset
+		dataType: int64
+		formatString: 0
+		lineageTag: d84bb6fd-d862-55a6-92ba-d274f92cdda8
+		summarizeBy: none
+		sourceColumn: end_offset
+
+	column window_type
+		dataType: string
+		lineageTag: 90e742aa-b8c9-54ed-ac24-1e8fb256de58
+		summarizeBy: none
+		sourceColumn: window_type
+
+	column sort_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 139ecbf8-7e81-55ca-9d71-cb888fe56e04
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	column definition
+		dataType: string
+		lineageTag: e9a98de3-5730-50dd-bff7-725eaa337774
+		summarizeBy: none
+		sourceColumn: definition
+
+	partition dim_window = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dim_window.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"window_id", type text}, {"window_label", type text}, {"start_offset", Int64.Type}, {"end_offset", Int64.Type}, {"window_type", type text}, {"sort_order", Int64.Type}, {"definition", type text}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,38 @@
+table dq_summary
+	lineageTag: 5028cd7a-552e-543d-8ac5-6b497cf206b4
+
+	column metric
+		dataType: string
+		lineageTag: 16fb0082-950d-53bc-8196-8dd2ae669d30
+		summarizeBy: none
+		sourceColumn: metric
+
+	column value
+		dataType: double
+		lineageTag: 8775cacf-b3f5-56ef-a871-f5b912f86c58
+		summarizeBy: none
+		sourceColumn: value
+
+	column unit
+		dataType: string
+		lineageTag: e05e3042-9267-5bf7-b4a0-6faea6f3de82
+		summarizeBy: none
+		sourceColumn: unit
+
+	column explanation
+		dataType: string
+		lineageTag: 1f768214-8f1c-5b63-94c8-df79ba914bd0
+		summarizeBy: none
+		sourceColumn: explanation
+
+	partition dq_summary = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dq_summary.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"metric", type text}, {"value", type number}, {"unit", type text}, {"explanation", type text}}, "en-US")
+				in
+				    Typed
+

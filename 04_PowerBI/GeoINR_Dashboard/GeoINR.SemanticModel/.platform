@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "GeoINR"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3b3447ff-56d7-515a-b563-91de7baad0c9"
+  }
+}

@@ -1,0 +1,5 @@
+expression DataFolder = "E:\DA PROJECTS\Geopolitical Events & INRUSD\01_Data\4_PowerBI_Tables" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: a6a93195-d5dc-523a-af9d-eb1e02211469
+
+	annotation PBI_ResultType = Text
+

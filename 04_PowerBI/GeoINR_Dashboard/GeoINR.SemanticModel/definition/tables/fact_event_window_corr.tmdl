@@ -1,0 +1,57 @@
+table fact_event_window_corr
+	lineageTag: e9236b79-193d-5729-9b66-8cc6a45dd8e8
+
+	column basis
+		dataType: string
+		lineageTag: 77508bb9-2f48-5ce3-9e37-433028cca86c
+		summarizeBy: none
+		sourceColumn: basis
+
+	column event_id
+		dataType: string
+		lineageTag: b27cbef8-ebd8-5853-b537-bae72dd18ae2
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column window_id
+		dataType: string
+		lineageTag: f1d349cd-e946-5b33-9dd6-91c92ad86fdb
+		summarizeBy: none
+		sourceColumn: window_id
+
+	column series_id
+		dataType: string
+		lineageTag: ebe22fc9-1431-5c83-a35b-f1391d86186d
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column n_obs
+		dataType: int64
+		formatString: 0
+		lineageTag: b7f07035-cf14-54a2-9bc7-b7f5cd7b33d6
+		summarizeBy: none
+		sourceColumn: n_obs
+
+	column status
+		dataType: string
+		lineageTag: bcd04819-df0f-5b3a-911c-a9f994d9d875
+		summarizeBy: none
+		sourceColumn: status
+
+	column corr
+		dataType: double
+		lineageTag: b4277ebb-8edb-53bc-8630-27e2ed60a238
+		summarizeBy: none
+		sourceColumn: corr
+
+	partition fact_event_window_corr = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_event_window_corr.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"event_id", type text}, {"window_id", type text}, {"series_id", type text}, {"n_obs", Int64.Type}, {"status", type text}, {"corr", type number}}, "en-US")
+				in
+				    Typed
+

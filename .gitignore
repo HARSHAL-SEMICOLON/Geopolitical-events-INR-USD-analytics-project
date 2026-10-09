@@ -1,0 +1,5 @@
+_Backup/
+__pycache__/
+.ipynb_checkpoints/
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

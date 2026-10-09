@@ -1,0 +1,85 @@
+table dq_alignment
+	lineageTag: d959b8ca-1435-56a9-baf5-e73a8eed75cf
+
+	column basis
+		dataType: string
+		lineageTag: 252537b4-1dfe-5fb1-8ed8-11bd679484c2
+		summarizeBy: none
+		sourceColumn: basis
+
+	column series_id
+		dataType: string
+		lineageTag: e484b382-cbc1-5e4f-83ab-c6c01dbc1404
+		summarizeBy: none
+		sourceColumn: series_id
+
+	column days
+		dataType: int64
+		formatString: 0
+		lineageTag: d40199b3-97ab-5e89-b328-ea8f4e23881a
+		summarizeBy: none
+		sourceColumn: days
+
+	column exact
+		dataType: int64
+		formatString: 0
+		lineageTag: cae08466-b0a0-581c-a346-c42b3ad43b3b
+		summarizeBy: none
+		sourceColumn: exact
+
+	column carried
+		dataType: int64
+		formatString: 0
+		lineageTag: 8cb5e585-fcee-59da-bf14-ac7fb2d0fad3
+		summarizeBy: none
+		sourceColumn: carried
+
+	column missing
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ce9006d-e9f0-51b1-aaf4-243cee1bdca7
+		summarizeBy: none
+		sourceColumn: missing
+
+	column max_staleness
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b15599a-9c9a-5933-b7fb-3a689447e2cd
+		summarizeBy: none
+		sourceColumn: max_staleness
+
+	column note
+		dataType: string
+		lineageTag: 6efbd4ec-fb43-5050-8ded-46d7e1afa0ed
+		summarizeBy: none
+		sourceColumn: note
+
+	column pct_exact
+		dataType: double
+		lineageTag: 7c8e1b41-d44a-554a-98cb-9bccc06e2628
+		summarizeBy: none
+		sourceColumn: pct_exact
+
+	column pct_carried
+		dataType: double
+		lineageTag: fa4137d1-8495-5158-944e-09872f367c85
+		summarizeBy: none
+		sourceColumn: pct_carried
+
+	column pct_missing
+		dataType: double
+		lineageTag: edbbd41c-a2d1-5c1a-9388-af453f708e1a
+		summarizeBy: none
+		sourceColumn: pct_missing
+
+	partition dq_alignment = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\dq_alignment.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"series_id", type text}, {"days", Int64.Type}, {"exact", Int64.Type}, {"carried", Int64.Type}, {"missing", Int64.Type}, {"max_staleness", Int64.Type}, {"note", type text}, {"pct_exact", type number}, {"pct_carried", type number}, {"pct_missing", type number}}, "en-US")
+				in
+				    Typed
+

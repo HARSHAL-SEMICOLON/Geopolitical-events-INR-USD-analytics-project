@@ -1,0 +1,88 @@
+table fact_event_anchor
+	lineageTag: 1a8734b4-5086-5db9-99dd-ca0f76248179
+
+	column basis
+		dataType: string
+		lineageTag: 25bdebc7-feaa-56a8-831e-73f7049a1374
+		summarizeBy: none
+		sourceColumn: basis
+
+	column event_id
+		dataType: string
+		lineageTag: 3abe04b8-a59b-56c5-b760-f2dbf3b49b5e
+		summarizeBy: none
+		sourceColumn: event_id
+
+	column covered
+		dataType: int64
+		formatString: 0
+		lineageTag: fff5c505-4e71-5770-8029-389ba7f9a912
+		summarizeBy: none
+		sourceColumn: covered
+
+	column anchor_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cc215793-cde5-5e8f-adc2-e8bbb4433a7a
+		summarizeBy: none
+		sourceColumn: anchor_date
+
+	column t0_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f79f235a-5f11-5e1c-85df-244410fd0206
+		summarizeBy: none
+		sourceColumn: t0_date
+
+	column t_minus1_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 572e6410-e137-55a2-9a83-c179d8a504cf
+		summarizeBy: none
+		sourceColumn: t_minus1_date
+
+	column calendar_days_anchor_to_t0
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c5f1d29-9d62-5eb4-a60c-404a66ae268b
+		summarizeBy: none
+		sourceColumn: calendar_days_anchor_to_t0
+
+	column last_available_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: bfd26cbb-d5f1-5cae-8940-26471be5adb0
+		summarizeBy: none
+		sourceColumn: last_available_date
+
+	column trading_days_after_available
+		dataType: int64
+		formatString: 0
+		lineageTag: 13235ee1-686e-59c0-afb7-3a62c4ab35fa
+		summarizeBy: none
+		sourceColumn: trading_days_after_available
+
+	column note
+		dataType: string
+		lineageTag: aebc4582-14a0-52cb-ae69-0edde275f1f3
+		summarizeBy: none
+		sourceColumn: note
+
+	column t0_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a228fb11-cd38-5bb0-9c32-93c856d1cf78
+		summarizeBy: none
+		sourceColumn: t0_date_key
+
+	partition fact_event_anchor = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\fact_event_anchor.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Nulls = Table.TransformColumns(Promoted, List.Transform(Table.ColumnNames(Promoted), (c) => {c, each if _ = "" then null else _})),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"basis", type text}, {"event_id", type text}, {"covered", Int64.Type}, {"anchor_date", type date}, {"t0_date", type date}, {"t_minus1_date", type date}, {"calendar_days_anchor_to_t0", Int64.Type}, {"last_available_date", type date}, {"trading_days_after_available", Int64.Type}, {"note", type text}, {"t0_date_key", Int64.Type}}, "en-US")
+				in
+				    Typed
+
